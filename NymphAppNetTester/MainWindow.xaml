@@ -1,0 +1,31 @@
+﻿<Window x:Class="NymphAppNetTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="479.6" Width="525">
+    <Grid>
+        <Button Content="Authorize new App.net account" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="234" Click="Button_Click_1"/>
+        <TextBlock HorizontalAlignment="Center" Margin="10,10,87.4,0" TextWrapping="Wrap" Text="AppNet.Net Testing Area" VerticalAlignment="Top" RenderTransformOrigin="-0.906,0" Height="46" Width="421" FontSize="36" FontStyle="Italic"/>
+        <TextBox x:Name="textboxClientSecret" HorizontalAlignment="Left" Height="23" Margin="388,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="249,88,0,0" TextWrapping="Wrap" Text="Client secret" VerticalAlignment="Top" RenderTransformOrigin="1.172,0.525" Height="19" Width="134" TextAlignment="Right"/>
+        <TextBox x:Name="textboxClientId" HorizontalAlignment="Left" Height="23" Margin="388,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="249,64,0,0" TextWrapping="Wrap" Text="Client ID" VerticalAlignment="Top" RenderTransformOrigin="1.172,0.525" Height="19" Width="134" TextAlignment="Right"/>
+        <TextBox x:Name="textboxAccessToken" HorizontalAlignment="Left" Height="23" Margin="388,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="AQAAAAAAAUVxpoqhhhK-Z828bl3BlI3lYqOizU5GapaHi_3HT5zWfhAToT-Q9rwT7nFRQLuoavxTL533WnjVkmLG0kUE70s9Ww"/>
+        <TextBlock HorizontalAlignment="Left" Margin="249,112,0,0" TextWrapping="Wrap" Text="Access token" VerticalAlignment="Top" RenderTransformOrigin="1.172,0.525" Height="19" Width="134" TextAlignment="Right"/>
+        <Button Content="Get user stream" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="117" Name="buttonGetPersonalStream" Click="buttonGetPersonalStream_Click_1" />
+        <Button x:Name="buttonWritePost" Content="Write Post" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonWritePost_Click"/>
+        <TextBox x:Name="textboxPostText" HorizontalAlignment="Left" Height="60" Margin="132,115,0,0" TextWrapping="Wrap" Text="Example text for posting with Nymphicus" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="buttonGetPostById" Content="Get post by id" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostById_Click_1" />
+        <TextBox x:Name="textboxGetPostById" HorizontalAlignment="Left" Height="23" Margin="132,193,0,0" TextWrapping="Wrap" Text="795025" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="buttonDeletePostById" Content="Delete post by id" HorizontalAlignment="Left" Margin="266,178,0,0" VerticalAlignment="Top" Width="117" Click="buttonDeletePostById_Click_1"/>
+        <TextBox x:Name="textboxDeletePostById" HorizontalAlignment="Left" Height="23" Margin="388,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="buttonRepliesById" Content="Get replies by id" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostRepliesById_Click_1" />
+        <Button x:Name="buttonRepostPostbyId" Content="Repost by id" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" Width="117" Click="buttonRepostPostbyId_Click_1" />
+        <Button x:Name="buttonUnrepostById" Content="Unrepost by id" HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top" Width="117" Click="buttonUnrepostById_Click_1"  />
+        <Button x:Name="buttonStarById" Content="Star by id" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Width="117" Click="buttonStarById_Click_1" />
+        <Button x:Name="buttonUnstarById" Content="Unstar by id" HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="117" Click="buttonUnstarById_Click_1" />
+        <Button x:Name="buttonGetMentionsOfUsername" Content="Mentions of username" HorizontalAlignment="Left" Margin="266,234,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetMentionsOfUsername_Click_1"/>
+        <TextBox x:Name="textboxUsername" HorizontalAlignment="Left" Height="23" Margin="388,234,0,0" TextWrapping="Wrap" Text="liGhun" VerticalAlignment="Top" Width="112"/>
+        <Button Content="Get global stream" HorizontalAlignment="Left" Margin="132,88,0,0" VerticalAlignment="Top" Width="112" x:Name="buttonGetGlobalStream" Click="buttonGetGlobalStream_Click_1" />
+
+    </Grid>
+</Window>
