@@ -53,6 +53,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiCalls\Common.cs" />
+    <Compile Include="ApiCalls\Parameters.cs" />
+    <Compile Include="ApiCalls\Users.cs" />
     <Compile Include="Helper\Authorize new App.net account.xaml.cs">
       <DependentUpon>Authorize new App.net account.xaml</DependentUpon>
     </Compile>
@@ -63,7 +66,7 @@
     <Compile Include="Model\Entities.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="ApiCalls.cs" />
+    <Compile Include="ApiCalls\Posts.cs" />
     <Compile Include="Helper\HttpCommunications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 using AppNetDotNet.Model;
 using Newtonsoft.Json;
 
-namespace AppNetDotNet
+namespace AppNetDotNet.ApiCalls
 {
-    public class ApiCalls
-    {
-        private static string baseUrl = "https://alpha-api.app.net";
+    
+        
 
         #region Streams
 
         public static class Streams
         {
-
+            private static string baseUrl = "https://alpha-api.app.net";
             public static List<Post> getUserStream(string access_token, Parameters parameter = null)
             {
                 string requestUrl = baseUrl + "/stream/0/posts/stream";
@@ -48,7 +47,7 @@ namespace AppNetDotNet
 
         public static class Posts
         {
-
+            private static string baseUrl = "https://alpha-api.app.net";
             public static Post write(string access_token, string text, string reply_to = null, Parameters parameter = null)
             {
                 string requestUrl = baseUrl + "/stream/0/posts";
@@ -270,19 +269,6 @@ namespace AppNetDotNet
         }
         #endregion
 
-        public class Parameters
-        {
-            public string since_id { get; set; }
-            public string before_id { get; set; }
-            public int count { get; set; }
-            public int include_muted { get; set; }
-            public int include_deleted { get; set; }
-            public int include_directed_posts { get; set; }
-            public int include_machine { get; set; }
-            public int include_annotations { get; set; }
-            public int include_starred_by { get; set; }
-            public int include_reposters { get; set; }
-            public int include_user { get; set; }
-        }
+        
     }
-}
+

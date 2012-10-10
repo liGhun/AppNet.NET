@@ -86,5 +86,60 @@ namespace NymphAppNetTester
         {
             AppNetDotNet.ApiCalls.Streams.getGlobalStream(textboxAccessToken.Text);
         }
+
+        private void buttonGetUserById_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getUserByUsername(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonFollow_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.followByUsername(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonUnfollow_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.unfollowByUsername(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonGetFollowings_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getFollowingsOfUser(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonGetFollowers_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getFollowersOfUser(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonMute_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.mute(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonUnmute_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.unmute(textboxAccessToken.Text, textboxUsername.Text);
+        }
+
+        private void buttonGetMutedUsers_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getMutedUsers(textboxAccessToken.Text);
+        }
+
+        private void buttonSearchUser_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.searchUsers(textboxAccessToken.Text, textboxSearchUser.Text);
+        }
+
+        private void buttonGetReposters_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getRepostersOfPost(textboxAccessToken.Text, textboxGetPostById.Text);
+        }
+
+        private void buttonGetUsersWhoStarred_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Users.getUserWhoStarredAPost(textboxAccessToken.Text, textboxGetPostById.Text);
+        }
     }
 }
