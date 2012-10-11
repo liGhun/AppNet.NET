@@ -16,7 +16,7 @@
         <TextBox x:Name="textboxPostText" HorizontalAlignment="Left" Height="60" Margin="132,115,0,0" TextWrapping="Wrap" Text="Example text for posting with Nymphicus" VerticalAlignment="Top" Width="112"/>
         <Button x:Name="buttonGetPostById" Content="Get post by id" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostById_Click_1" />
         <TextBox x:Name="textboxGetPostById" HorizontalAlignment="Left" Height="23" Margin="132,193,0,0" TextWrapping="Wrap" Text="795025" VerticalAlignment="Top" Width="112"/>
-        <Button x:Name="buttonDeletePostById" Content="Delete post by id" HorizontalAlignment="Left" Margin="266,178,0,0" VerticalAlignment="Top" Width="117" Click="buttonDeletePostById_Click_1"/>
+        <Button x:Name="buttonDeletePostById" Content="Delete post by id" HorizontalAlignment="Left" Margin="266,175,0,0" VerticalAlignment="Top" Width="117" Click="buttonDeletePostById_Click_1"/>
         <TextBox x:Name="textboxSearchUser" HorizontalAlignment="Left" Height="23" Margin="679,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" Text="apn"/>
         <Button x:Name="buttonRepliesById" Content="Get replies by id" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostRepliesById_Click_1" />
         <Button x:Name="buttonRepostPostbyId" Content="Repost by id" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" Width="117" Click="buttonRepostPostbyId_Click_1" />
@@ -38,6 +38,8 @@
         <TextBox x:Name="textboxDeletePostById" HorizontalAlignment="Left" Height="23" Margin="388,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" Text="123456"/>
         <Button x:Name="buttonGetReposters" Content="Get reposters" HorizontalAlignment="Left" Margin="10,365,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetReposters_Click_1" />
         <Button x:Name="buttonGetUsersWhoStarred" Content="GetUsersWhoStarred" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetUsersWhoStarred_Click_1" />
+        <Button x:Name="buttonGetToken" Content="Get Token (when already logged in)" HorizontalAlignment="Left" Margin="266,137,0,0" VerticalAlignment="Top" Width="242" Click="buttonGetToken_Click_1"/>
+        <Button x:Name="buttonGetFilter" Content="Get filter of user" HorizontalAlignment="Left" Margin="557,153,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetFilter_Click_1" />
 
     </Grid>
 </Window>

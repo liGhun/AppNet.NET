@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AppNetDotNet.Model;
 using Newtonsoft.Json;
+using AppNetDotNet.ApiCalls;
 
 namespace AppNetDotNet.ApiCalls
 {
@@ -15,10 +16,10 @@ namespace AppNetDotNet.ApiCalls
 
         public static class Streams
         {
-            private static string baseUrl = "https://alpha-api.app.net";
+            
             public static List<Post> getUserStream(string access_token, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/stream";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/stream";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -30,7 +31,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static List<Post> getGlobalStream(string access_token, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/stream/global";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/stream/global";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -47,10 +48,10 @@ namespace AppNetDotNet.ApiCalls
 
         public static class Posts
         {
-            private static string baseUrl = "https://alpha-api.app.net";
+            
             public static Post write(string access_token, string text, string reply_to = null, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts";
+                string requestUrl = Common.baseUrl + "/stream/0/posts";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response;
@@ -83,7 +84,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post getById(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id;
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id;
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -107,7 +108,7 @@ namespace AppNetDotNet.ApiCalls
             }
             public static List<Post> getByUserId(string access_token, string userId, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/users/" + userId + "/posts";
+                string requestUrl = Common.baseUrl + "/stream/0/users/" + userId + "/posts";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -119,7 +120,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static List<Post> getRepliesById(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id + "/replies";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id + "/replies";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -133,7 +134,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post repost(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id + "/repost";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id + "/repost";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendPostRequest(
@@ -152,7 +153,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post unrepost(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id + "/repost";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id + "/repost";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(
@@ -171,7 +172,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post star(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id + "/star";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id + "/star";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendPostRequest(
@@ -190,7 +191,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post unstar(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id + "/star";
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id + "/star";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(
@@ -207,7 +208,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static Post delete(string access_token, string id, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/posts/" + id;
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + id;
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
@@ -232,7 +233,7 @@ namespace AppNetDotNet.ApiCalls
 
             public static List<Post> getStaredByUserId(string access_token, string userId, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/users/" + userId + "/stars";
+                string requestUrl = Common.baseUrl + "/stream/0/users/" + userId + "/stars";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -256,7 +257,7 @@ namespace AppNetDotNet.ApiCalls
             }
             public static List<Post> getMentionsOfUserId(string access_token, string userId, Parameters parameter = null)
             {
-                string requestUrl = baseUrl + "/stream/0/users/" + userId + "/mentions";
+                string requestUrl = Common.baseUrl + "/stream/0/users/" + userId + "/mentions";
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);

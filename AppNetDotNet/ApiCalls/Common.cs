@@ -5,8 +5,10 @@ using System.Text;
 
 namespace AppNetDotNet.ApiCalls
 {
+   
     public class Common
     {
+        public static string baseUrl = "https://alpha-api.app.net";
         public static string formatUserIdOrUsername(string userIdentifier)
         {
             if(userIdentifier == null) {

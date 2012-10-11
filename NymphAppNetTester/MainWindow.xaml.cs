@@ -141,5 +141,15 @@ namespace NymphAppNetTester
         {
             AppNetDotNet.ApiCalls.Users.getUserWhoStarredAPost(textboxAccessToken.Text, textboxGetPostById.Text);
         }
+
+        private void buttonGetToken_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Tokens.get(textboxAccessToken.Text);
+        }
+
+        private void buttonGetFilter_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.Filters.getForCurrentUser(textboxAccessToken.Text);
+        }
     }
 }

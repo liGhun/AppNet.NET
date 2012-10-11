@@ -54,17 +54,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiCalls\Common.cs" />
+    <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
+    <Compile Include="ApiCalls\Subscritions.cs" />
+    <Compile Include="ApiCalls\Tokens.cs" />
     <Compile Include="ApiCalls\Users.cs" />
     <Compile Include="Helper\Authorize new App.net account.xaml.cs">
       <DependentUpon>Authorize new App.net account.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Annotation.cs" />
+    <Compile Include="Model\Application.cs" />
     <Compile Include="Model\AppNetAccount.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
     <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\Token.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ApiCalls\Posts.cs" />
     <Compile Include="Helper\HttpCommunications.cs" />
