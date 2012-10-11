@@ -34,7 +34,7 @@ namespace NymphAppNetTester
 
         private void buttonGetPersonalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Streams.getUserStream(textboxAccessToken.Text);
+            AppNetDotNet.ApiCalls.ManualStreams.getUserStream(textboxAccessToken.Text);
         }
 
         private void buttonWritePost_Click(object sender, RoutedEventArgs e)
@@ -84,7 +84,7 @@ namespace NymphAppNetTester
 
         private void buttonGetGlobalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Streams.getGlobalStream(textboxAccessToken.Text);
+            AppNetDotNet.ApiCalls.ManualStreams.getGlobalStream(textboxAccessToken.Text);
         }
 
         private void buttonGetUserById_Click_1(object sender, RoutedEventArgs e)
@@ -150,6 +150,12 @@ namespace NymphAppNetTester
         private void buttonGetFilter_Click_1(object sender, RoutedEventArgs e)
         {
             AppNetDotNet.ApiCalls.Filters.getForCurrentUser(textboxAccessToken.Text);
+        }
+
+        private void buttonBrowserTest_Click_1(object sender, RoutedEventArgs e)
+        {
+            BrowserTest test = new BrowserTest();
+            test.Show();
         }
     }
 }

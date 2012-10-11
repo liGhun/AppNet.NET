@@ -40,6 +40,7 @@
         <Button x:Name="buttonGetUsersWhoStarred" Content="GetUsersWhoStarred" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetUsersWhoStarred_Click_1" />
         <Button x:Name="buttonGetToken" Content="Get Token (when already logged in)" HorizontalAlignment="Left" Margin="266,137,0,0" VerticalAlignment="Top" Width="242" Click="buttonGetToken_Click_1"/>
         <Button x:Name="buttonGetFilter" Content="Get filter of user" HorizontalAlignment="Left" Margin="557,153,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetFilter_Click_1" />
+        <Button x:Name="buttonBrowserTest" Content="Internal browser test" HorizontalAlignment="Left" Margin="10,547,0,0" VerticalAlignment="Top" Width="234" Click="buttonBrowserTest_Click_1" />
 
     </Grid>
 </Window>

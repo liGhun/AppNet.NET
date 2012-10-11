@@ -32,6 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CertForTests.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,6 +62,7 @@
     <Compile Include="ApiCalls\Common.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
+    <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscritions.cs" />
     <Compile Include="ApiCalls\Tokens.cs" />
     <Compile Include="ApiCalls\Users.cs" />
@@ -69,6 +76,7 @@
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
     <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\Stream.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ApiCalls\Posts.cs" />
@@ -85,6 +93,9 @@
     <Content Include="Newtonsoft.Json.dll" />
     <Content Include="Newtonsoft.Json.pdb" />
     <Resource Include="Newtonsoft.Json.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CertForTests.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

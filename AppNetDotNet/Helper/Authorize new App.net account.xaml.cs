@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace AppNetDotNet
 {
@@ -28,12 +29,17 @@ namespace AppNetDotNet
 
             Guid guid = System.Guid.NewGuid();
             state = guid.ToString();
-
-            webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
             
-            string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=token&redirect_uri={1}&scope={2}&state={3}",System.Web.HttpUtility.HtmlEncode(clientId),System.Web.HttpUtility.HtmlEncode(redirectUrl),System.Web.HttpUtility.HtmlEncode(scope), System.Web.HttpUtility.HtmlEncode(state));
-            webBrowserAuthorization.Navigate(authUrl);
+            webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
+            webBrowserAuthorization.Navigated += webBrowserAuthorization_Navigated;
+            string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=token&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
+            webBrowserAuthorization.Navigate(System.Web.HttpUtility.HtmlEncode(authUrl));
             this.Show();
+        }
+
+        void webBrowserAuthorization_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            HideScriptErrors(webBrowserAuthorization, true);
         }
 
         void webBrowserAuthorization_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
@@ -46,7 +52,14 @@ namespace AppNetDotNet
             }
         }
 
-
+        public void HideScriptErrors(WebBrowser wb, bool Hide)
+        {
+            FieldInfo fiComWebBrowser = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (fiComWebBrowser == null) return;
+            object objComWebBrowser = fiComWebBrowser.GetValue(wb);
+            if (objComWebBrowser == null) return;
+            objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { Hide });
+        }  
 
 
          public static class WebBrowserHelper

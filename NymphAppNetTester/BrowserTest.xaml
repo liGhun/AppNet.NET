@@ -1,0 +1,11 @@
+﻿<Window x:Class="NymphAppNetTester.BrowserTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BrowserTest" Height="478.723" Width="565.35">
+    <Grid>
+        <TextBox x:Name="textboxUrl" Height="23" Margin="10,10,58.2,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <WebBrowser x:Name="webbrowserTest" Margin="10,38,10.2,10.4"/>
+        <Button x:Name="buttonGo" Content="Go" HorizontalAlignment="Left" Margin="506,11,0,0" VerticalAlignment="Top" Width="43" Click="buttonGo_Click_1"/>
+
+    </Grid>
+</Window>
