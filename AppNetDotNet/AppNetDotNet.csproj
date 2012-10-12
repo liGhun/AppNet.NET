@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ApiCalls\Common.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
+    <Compile Include="ApiCalls\ApiCallResponse.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscritions.cs" />

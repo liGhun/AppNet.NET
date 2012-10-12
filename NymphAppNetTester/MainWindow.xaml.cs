@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AppNetDotNet;
+using AppNetDotNet.Model;
+using AppNetDotNet.ApiCalls;
 
 namespace NymphAppNetTester
 {
@@ -34,7 +36,8 @@ namespace NymphAppNetTester
 
         private void buttonGetPersonalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.ManualStreams.getUserStream(textboxAccessToken.Text);
+            Tuple<List<Post>,ApiCallResponse> streanItems = AppNetDotNet.ApiCalls.ManualStreams.getUserStream(textboxAccessToken.Text);
+            Console.WriteLine("klkj");
         }
 
         private void buttonWritePost_Click(object sender, RoutedEventArgs e)

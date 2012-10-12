@@ -398,12 +398,14 @@ namespace AppNetDotNet
 
             returnValue.FullHeaders = response.Headers;
             returnValue = parseHeaders(returnValue);
+            returnValue.StatusCode = response.StatusCode;
 
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
                 returnValue.Content = reader.ReadToEnd();
-                return returnValue;
+                
             }
+            return returnValue;
         }
 
         private static Response parseHeaders(Response response)
@@ -413,24 +415,59 @@ namespace AppNetDotNet
                 KeyValuePair<string, string> header = new KeyValuePair<string, string>(response.FullHeaders.GetKey(i), response.FullHeaders.Get(i));
                 switch (header.Key)
                 {
-                    case "Status":
-                        response.Status = header.Value;
-                        if (header.Value.StartsWith("200"))
+                    case "X-RateLimit-Remaining":
+                        int rateRemaining = 0;
+                        if (int.TryParse(header.Value, out rateRemaining))
                         {
-                            response.Success = true;
+                            response.rateLimits.remaining = rateRemaining;
                         }
-                        else
+                        break;
+                    case "X-RateLimit-Limit":
+                        int rateLimit = 0;
+                        if (int.TryParse(header.Value, out rateLimit))
                         {
-                            response.Success = false;
+                            response.rateLimits.limit = rateLimit;
+                        }
+                        break;
+                    case "X-RateLimit-Reset":
+                        int rateReset = 0;
+                        if (int.TryParse(header.Value, out rateReset))
+                        {
+                            response.rateLimits.reset = rateReset;
                         }
                         break;
 
+                    case "Retry-After":
+                        int retryAfter = 0;
+                        if (int.TryParse(header.Value, out retryAfter))
+                        {
+                            response.rateLimits.retryAfter = retryAfter;
+                        }
+                        break;
 
                     default:
-                        // any other response we are not interested...
+                        // any other response we are not interested right now...
                         break;
                 }
             }
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Accepted:
+                case HttpStatusCode.Created:
+                case HttpStatusCode.NoContent:
+                case HttpStatusCode.NonAuthoritativeInformation:
+                case HttpStatusCode.PartialContent:
+                case HttpStatusCode.ResetContent:
+                    response.Success = true;
+                    break;
+
+                default:
+                    response.Success = false;
+                    break;
+
+            }
+            
             return response;
         }
 
@@ -450,9 +487,36 @@ namespace AppNetDotNet
             public string Status { get; set; }
             public string Error { get; set; }
             public string Content { get; set; }
-
+            public HttpStatusCode StatusCode { get; set; }
             public WebHeaderCollection FullHeaders { get; set; }
+            public RateLimits rateLimits { get; set; }
 
+            public class RateLimits
+            {
+                public bool hasRateLimitInfo
+                {
+                    get
+                    {
+                        return limit != 0 || remaining != 0 || reset != 0 || retryAfter != 0;
+                    }
+                }
+
+                public int remaining { get; set; }
+                public int limit { get; set; }
+                public int reset { get; set; }
+                public int retryAfter { get; set; }
+            }
+
+            public Response()
+            {
+                Success = true;
+                Status = "";
+                Error = "";
+                Content = "";
+                StatusCode = HttpStatusCode.OK;
+                FullHeaders = new WebHeaderCollection();
+                rateLimits = new RateLimits();
+            }
         }
 
     }

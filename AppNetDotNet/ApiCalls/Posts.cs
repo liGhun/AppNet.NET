@@ -17,16 +17,30 @@ namespace AppNetDotNet.ApiCalls
         public static class ManualStreams
         {
             
-            public static List<Post> getUserStream(string access_token, Parameters parameter = null)
+            public static Tuple <List<Post>,ApiCallResponse> getUserStream(string access_token, Parameters parameter = null)
             {
-                string requestUrl = Common.baseUrl + "/stream/0/posts/stream";
-                Dictionary<string, string> headers = new Dictionary<string, string>();
-                headers.Add("Authorization", "Bearer " + access_token);
-                Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-
-                List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
-
-                return posts;
+                ApiCallResponse apiCallResponse;
+                List<Post> posts = null;
+                try
+                {
+                    string requestUrl = Common.baseUrl + "/stream/0/posts/stream";
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    headers.Add("Authorization", "Bearer " + access_token);
+                    Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
+                    apiCallResponse = new ApiCallResponse(response);
+                    if (response.Success)
+                    {
+                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
+                    }
+                }
+                catch (Exception exp)
+                {
+                    apiCallResponse = new ApiCallResponse();
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = exp.Message;
+                    apiCallResponse.errorDescription = exp.StackTrace;
+                } 
+                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);;
             }
 
             public static List<Post> getGlobalStream(string access_token, Parameters parameter = null)
