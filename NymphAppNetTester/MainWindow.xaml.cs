@@ -36,7 +36,7 @@ namespace NymphAppNetTester
 
         private void buttonGetPersonalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            Tuple<List<Post>,ApiCallResponse> streanItems = AppNetDotNet.ApiCalls.ManualStreams.getUserStream(textboxAccessToken.Text);
+            Tuple<List<Post>,ApiCallResponse> streanItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text);
             Console.WriteLine("klkj");
         }
 
@@ -87,7 +87,7 @@ namespace NymphAppNetTester
 
         private void buttonGetGlobalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.ManualStreams.getGlobalStream(textboxAccessToken.Text);
+            AppNetDotNet.ApiCalls.SimpleStreams.getGlobalStream(textboxAccessToken.Text);
         }
 
         private void buttonGetUserById_Click_1(object sender, RoutedEventArgs e)

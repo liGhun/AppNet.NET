@@ -12,7 +12,7 @@ namespace AppNetDotNet.ApiCalls
     
         #region Streams
 
-        public static class ManualStreams
+        public static class SimpleStreams
         {
             
             public static Tuple <List<Post>,ApiCallResponse> getUserStream(string access_token, Parameters parameter = null)
