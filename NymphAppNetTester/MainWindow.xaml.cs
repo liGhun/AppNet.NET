@@ -82,7 +82,7 @@ namespace NymphAppNetTester
 
         private void buttonGetMentionsOfUsername_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Posts.getMentionsOfUsername(textboxAccessToken.Text, textboxUsername.Text);
+            AppNetDotNet.ApiCalls.Posts.getMentionsOfUsernameOrId(textboxAccessToken.Text, textboxUsername.Text);
         }
 
         private void buttonGetGlobalStream_Click_1(object sender, RoutedEventArgs e)

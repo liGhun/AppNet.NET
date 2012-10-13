@@ -17,7 +17,7 @@ namespace AppNetDotNet.ApiCalls
 
         public ApiCallResponse()
         {
-            success = true;
+            success = false;
             content = "";
             errorMessage = "";
             errorDescription = "";
@@ -32,11 +32,14 @@ namespace AppNetDotNet.ApiCalls
 
         public ApiCallResponse(Helper.Response response)
         {
-            this.success = response.Success;
-            this.errorMessage = response.Error;
-            this.content = response.Content;
-            this.statusCode = response.StatusCode;
-            this.rateLimits = response.rateLimits;
+            if (response != null)
+            {
+                this.success = response.Success;
+                this.errorMessage = response.Error;
+                this.content = response.Content;
+                this.statusCode = response.StatusCode;
+                this.rateLimits = response.rateLimits;
+            }
         }
     }
 }
