@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AppNetDotNet.ApiCalls
 {
-    public class Subscritions
+    public class Subscriptions
     {
         // not implemented by Api.net by now
     }

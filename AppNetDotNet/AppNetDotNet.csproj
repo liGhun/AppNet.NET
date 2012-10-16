@@ -64,7 +64,7 @@
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
-    <Compile Include="ApiCalls\Subscritions.cs" />
+    <Compile Include="ApiCalls\Subscriptions.cs" />
     <Compile Include="ApiCalls\Tokens.cs" />
     <Compile Include="ApiCalls\Users.cs" />
     <Compile Include="Helper\Authorize new App.net account.xaml.cs">

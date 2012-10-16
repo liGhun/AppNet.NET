@@ -9,16 +9,35 @@ namespace AppNetDotNet.ApiCalls
 {
     public class Tokens
     {
-        public static Token get(string access_token, Parameters parameter = null)
+        public static Tuple<Token, ApiCallResponse> get(string access_token, Parameters parameter = null)
         {
-            string requestUrl = Common.baseUrl + "/stream/0/token";
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("Authorization", "Bearer " + access_token);
-            Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-
-            Token token = JsonConvert.DeserializeObject<Token>(response.Content);
-
-            return token;
+            ApiCallResponse apiCallResponse = new ApiCallResponse();
+            Token token = new Token();
+            try
+            {
+                if (string.IsNullOrEmpty(access_token))
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = "Missing parameter access_token";
+                    return new Tuple<Token, ApiCallResponse>(token, apiCallResponse);
+                }
+                string requestUrl = Common.baseUrl + "/stream/0/token";
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers.Add("Authorization", "Bearer " + access_token);
+                Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
+                apiCallResponse = new ApiCallResponse(response);
+                if (apiCallResponse.success)
+                {
+                    token = JsonConvert.DeserializeObject<Token>(response.Content);
+                }
+            }
+            catch (Exception exp)
+            {
+                apiCallResponse.success = false;
+                apiCallResponse.errorMessage = exp.Message;
+                apiCallResponse.errorDescription = exp.StackTrace;
+            }
+            return new Tuple<Token, ApiCallResponse>(token, apiCallResponse);
         }
     }
 }
