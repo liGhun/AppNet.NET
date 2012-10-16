@@ -92,17 +92,17 @@ namespace NymphAppNetTester
 
         private void buttonGetUserById_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Users.getUserByUsername(textboxAccessToken.Text, textboxUsername.Text);
+            AppNetDotNet.ApiCalls.Users.getUserByUsernameOrId (textboxAccessToken.Text, textboxUsername.Text);
         }
 
         private void buttonFollow_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Users.followByUsername(textboxAccessToken.Text, textboxUsername.Text);
+            AppNetDotNet.ApiCalls.Users.followByUsernameOrId(textboxAccessToken.Text, textboxUsername.Text);
         }
 
         private void buttonUnfollow_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Users.unfollowByUsername(textboxAccessToken.Text, textboxUsername.Text);
+            AppNetDotNet.ApiCalls.Users.unfollowByUsernameOrId(textboxAccessToken.Text, textboxUsername.Text);
         }
 
         private void buttonGetFollowings_Click_1(object sender, RoutedEventArgs e)
