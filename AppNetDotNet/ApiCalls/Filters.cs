@@ -9,7 +9,7 @@ namespace AppNetDotNet.ApiCalls
 {
     public static class Filters
     {
-        public static Tuple<List<Filter>, ApiCallResponse> getForCurrentUser(string access_token, Parameters parameter = null)
+        public static Tuple<List<Filter>, ApiCallResponse> getForCurrentUser(string access_token)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<Filter> filters = new List<Filter>();
@@ -40,7 +40,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<List<Filter>, ApiCallResponse>(filters, apiCallResponse);
         }
 
-        public static Tuple<Filter, ApiCallResponse> getbyId(string access_token, string filterId, Parameters parameter = null)
+        public static Tuple<Filter, ApiCallResponse> getbyId(string access_token, string filterId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Filter filter = new Filter();
@@ -77,7 +77,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<Filter, ApiCallResponse>(filter, apiCallResponse);
         }
 
-        public static Tuple<Filter, ApiCallResponse> delete(string access_token, string filterId, Parameters parameter = null)
+        public static Tuple<Filter, ApiCallResponse> delete(string access_token, string filterId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Filter filter = new Filter();
@@ -114,7 +114,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<Filter, ApiCallResponse>(filter, apiCallResponse);
         }
 
-        public static Tuple<Filter,ApiCallResponse> create(string access_token, Filter filter, Parameters parameter = null)
+        public static Tuple<Filter,ApiCallResponse> create(string access_token, Filter filter)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Filter createdFilter = new Filter();

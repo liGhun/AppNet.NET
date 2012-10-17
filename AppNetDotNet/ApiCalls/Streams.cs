@@ -9,7 +9,7 @@ namespace AppNetDotNet.ApiCalls
 {
     public class Streams
     {
-        public static Tuple<Stream,ApiCallResponse> getStatus(string access_token, string streamId, Parameters parameter = null)
+        public static Tuple<Stream,ApiCallResponse> getStatus(string access_token, string streamId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Stream stream = new Stream();

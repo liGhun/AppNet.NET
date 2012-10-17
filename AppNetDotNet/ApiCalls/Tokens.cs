@@ -9,7 +9,7 @@ namespace AppNetDotNet.ApiCalls
 {
     public class Tokens
     {
-        public static Tuple<Token, ApiCallResponse> get(string access_token, Parameters parameter = null)
+        public static Tuple<Token, ApiCallResponse> get(string access_token)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Token token = new Token();

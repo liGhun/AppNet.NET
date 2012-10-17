@@ -201,7 +201,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Muting
 
-        public static Tuple<User, ApiCallResponse> mute(string access_token, string usernameOrId, Parameters parameter = null)
+        public static Tuple<User, ApiCallResponse> mute(string access_token, string usernameOrId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             User user = new User();
@@ -238,7 +238,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
         }
 
-        public static Tuple<User, ApiCallResponse> unmute(string access_token, string usernameOrId, Parameters parameter = null)
+        public static Tuple<User, ApiCallResponse> unmute(string access_token, string usernameOrId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             User user = new User();
@@ -275,7 +275,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
         }
 
-        public static Tuple<List<User>,ApiCallResponse> getMutedUsers(string access_token, Parameters parameter = null)
+        public static Tuple<List<User>,ApiCallResponse> getMutedUsers(string access_token)
         {
              ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -310,7 +310,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Searches
 
-        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString, Parameters parameter = null)
+        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -351,7 +351,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Reposters
 
-        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId, Parameters parameter = null)
+        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -392,7 +392,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Stars
 
-        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId, Parameters parameter = null)
+        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId)
         {
              ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();

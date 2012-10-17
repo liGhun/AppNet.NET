@@ -42,7 +42,7 @@ namespace NymphAppNetTester
 
         private void buttonWritePost_Click(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Posts.write(textboxAccessToken.Text, textboxPostText.Text);
+            AppNetDotNet.ApiCalls.Posts.create(textboxAccessToken.Text, textboxPostText.Text);
         }
 
         private void buttonGetPostById_Click_1(object sender, RoutedEventArgs e)
