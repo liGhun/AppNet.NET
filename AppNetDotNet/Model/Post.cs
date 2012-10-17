@@ -22,6 +22,7 @@ namespace AppNetDotNet.Model
         public DateTime created_at { get; set; }
         public string text { get; set; }
         public string html { get; set; }
+        public Source source { get; set; }
         public string reply_to { get; set; }
         public string canonical_url { get; set; }
         public string thread_id { get; set; }
