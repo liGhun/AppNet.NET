@@ -1,7 +1,7 @@
 ﻿<Window x:Class="NymphAppNetTester.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="606.161" Width="937.011">
+        Title="MainWindow" Height="606.161" Width="937.011" Icon="alpha.png">
     <Grid>
         <Button Content="Authorize new App.net account" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="234" Click="Button_Click_1"/>
         <TextBlock HorizontalAlignment="Center" Margin="10,10,87.4,0" TextWrapping="Wrap" Text="AppNet.Net Testing Area" VerticalAlignment="Top" RenderTransformOrigin="-0.906,0" Height="46" Width="421" FontSize="36" FontStyle="Italic"/>

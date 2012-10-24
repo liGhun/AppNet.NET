@@ -29,7 +29,7 @@ namespace NymphAppNetTester
         {
             InitializeComponent();
 
-            
+            buttonGo_Click_1(null, null);
         }
 
         private void buttonGo_Click_1(object sender, RoutedEventArgs e)

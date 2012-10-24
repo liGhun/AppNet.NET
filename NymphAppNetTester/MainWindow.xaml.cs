@@ -30,8 +30,28 @@ namespace NymphAppNetTester
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.Model.AppNetAccount.clientId = "8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m";
-            AppNetDotNet.Model.AppNetAccount account = AppNetDotNet.Model.AppNetAccount.AuthorizeNewAccount("http://www.nymphicusapp.com/windows/appnet/?newaccount=authsuccess", "basic stream write_post follow messages");
+            Authorization.serverSideFlow apnAuthProcess = new Authorization.serverSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
+            apnAuthProcess.AuthSuccess += authProcess_AuthSuccess;
+            apnAuthProcess.showAuthWindow();
+
+
+            //AppNetDotNet.Model.Authorization.clientId = "8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m";
+            //AppNetDotNet.Model.Authorization account = AppNetDotNet.Model.Authorization.AuthorizeNewAccount("http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
+        }
+
+        void authProcess_AuthSuccess(object sender, AuthorizationWindow.AuthEventArgs e)
+        {
+            if (e != null)
+            {
+                if (e.success)
+                {
+                    MessageBox.Show(e.accessToken, "Access token");
+                }
+                else
+                {
+                    MessageBox.Show(e.error, "Authorization failed");
+                }
+            }
         }
 
         private void buttonGetPersonalStream_Click_1(object sender, RoutedEventArgs e)

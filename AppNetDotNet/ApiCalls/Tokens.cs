@@ -28,7 +28,17 @@ namespace AppNetDotNet.ApiCalls
                 apiCallResponse = new ApiCallResponse(response);
                 if (apiCallResponse.success)
                 {
-                    token = JsonConvert.DeserializeObject<Token>(response.Content);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.Error += delegate(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                    {
+                        throw args.ErrorContext.Error;
+                    };
+                    token = JsonConvert.DeserializeObject<Token>(response.Content,settings);
+                    if (token == null)
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "No user / token available";
+                    }
                 }
             }
             catch (Exception exp)
@@ -39,5 +49,6 @@ namespace AppNetDotNet.ApiCalls
             }
             return new Tuple<Token, ApiCallResponse>(token, apiCallResponse);
         }
+
     }
 }

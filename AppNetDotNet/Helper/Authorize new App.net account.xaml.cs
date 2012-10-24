@@ -14,52 +14,88 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
+
 namespace AppNetDotNet
 {
     /// <summary>
     /// Interaction logic for Authorize_new_App.xaml
     /// </summary>
-    public partial class Authorize_new_App : Window
+    public partial class AuthorizationWindow : Window
     {
         private string state { get; set; }
 
-        public Authorize_new_App(string clientId, string redirectUrl, string scope)
+        private bool complete { get; set; }
+
+        public AuthorizationWindow(string clientId, string redirectUrl, string scope)
         {
             InitializeComponent();
 
             Guid guid = System.Guid.NewGuid();
             state = guid.ToString();
-            
             webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
-            webBrowserAuthorization.Navigated += webBrowserAuthorization_Navigated;
             string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=token&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
-            webBrowserAuthorization.Navigate(System.Web.HttpUtility.HtmlEncode(authUrl));
+            webBrowserAuthorization.Navigate(authUrl);
             this.Show();
         }
 
-        void webBrowserAuthorization_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        public  AuthorizationWindow(string clientId, string redirectUrl, string scope, bool serverSide)
         {
-            HideScriptErrors(webBrowserAuthorization, true);
+            InitializeComponent();
+            Guid guid = System.Guid.NewGuid();
+            state = guid.ToString();
+            webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
+            webBrowserAuthorization.Navigate("https://alpha.app.net/logout/");
+            string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=code&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
+            webBrowserAuthorization.Navigate(authUrl);
         }
+
+
 
         void webBrowserAuthorization_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
-            if (e != null)
+            if (complete)
             {
-                if(e.Uri.AbsoluteUri.Contains("access_token")) {
-                    Console.WriteLine("hallo");
+                return;
+            }
+            if (e != null)
+            {            
+                if(e.Uri.AbsoluteUri.Contains("code=")) {
+                    e.Cancel = true;
+                    webBrowserAuthorization = null;
+                    complete = true;
+                    Helper.Response response = Helper.SendGetRequest(e.Uri.AbsoluteUri);
+                    AuthEventArgs eventArgs = new AuthEventArgs();
+                    if (!string.IsNullOrEmpty(response.Content))
+                    {
+                        if(!response.Content.StartsWith("ERROR:::")) {
+                            eventArgs.accessToken = response.Content;
+                            eventArgs.success = true;
+                        }
+                        else
+                        {
+                            eventArgs.error = response.Content.Substring(8);
+                        }
+                    }
+                    else
+                    {
+                        eventArgs.error = "Null response";
+                    }
+                    AuthSuccess(this, eventArgs);
+                    Close();
                 }
             }
         }
 
-        public void HideScriptErrors(WebBrowser wb, bool Hide)
+        
+        public event AuthEventHandler AuthSuccess;
+        public delegate void AuthEventHandler(object sender, AuthEventArgs e);
+        public class AuthEventArgs : EventArgs
         {
-            FieldInfo fiComWebBrowser = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (fiComWebBrowser == null) return;
-            object objComWebBrowser = fiComWebBrowser.GetValue(wb);
-            if (objComWebBrowser == null) return;
-            objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { Hide });
-        }  
+
+            public bool success { get; set; }
+            public string accessToken {get; set;}
+            public string error { get; set; }
+        }
 
 
          public static class WebBrowserHelper
