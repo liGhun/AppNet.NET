@@ -18,14 +18,14 @@ namespace AppNetDotNet.ApiCalls
             public static Tuple <List<Post>,ApiCallResponse> getUserStream(string access_token, ParametersMyStream parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
-                List<Post> posts = new List<Post>();
+                StreamResponse streamResponse = new StreamResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
                     {
                         apiCallResponse.success = false;
                         apiCallResponse.errorMessage = "Missing parameter access_token";
-                        return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                        return new Tuple<List<Post>, ApiCallResponse>(new List<Post>(), apiCallResponse);
                     }
                     string requestUrl = Common.baseUrl + "/stream/0/posts/stream";
                     if(parameter != null) {
@@ -33,11 +33,13 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
+                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
                     apiCallResponse = new ApiCallResponse(response);
                     if (response.Success)
                     {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
+                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
+                        apiCallResponse.meta = streamResponse.meta;
                     }
                 }
                 catch (Exception exp)
@@ -47,13 +49,14 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 } 
-                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
             }
 
             public static Tuple <List<Post>,ApiCallResponse> getGlobalStream(string access_token, Parameters parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<Post> posts = new List<Post>();
+                StreamResponse streamResponse = new StreamResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -68,11 +71,13 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
+                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
                     apiCallResponse = new ApiCallResponse(response);
                     if (apiCallResponse.success)
                     {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
+                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
+                        apiCallResponse.meta = streamResponse.meta;
                     }
                 }
                 catch (Exception exp)
@@ -81,7 +86,7 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
             }
         }
 
@@ -522,20 +527,22 @@ namespace AppNetDotNet.ApiCalls
             public static Tuple<List<Post>, ApiCallResponse> getMentionsOfUsernameOrId(string access_token, string usernameOrId, Parameters parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
-                List<Post> posts = new List<Post>();
+                List<Post> emptyList = new List<Post>();
+                StreamResponse streamResponse = new StreamResponse();
+                streamResponse.data = new List<Post>();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
                     {
                         apiCallResponse.success = false;
                         apiCallResponse.errorMessage = "Missing parameter access_token";
-                        return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                        return new Tuple<List<Post>, ApiCallResponse>(emptyList, apiCallResponse);
                     }
                     if (string.IsNullOrEmpty(usernameOrId))
                     {
                         apiCallResponse.success = false;
                         apiCallResponse.errorMessage = "Missing parameter username or id";
-                        return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                        return new Tuple<List<Post>, ApiCallResponse>(emptyList, apiCallResponse);
                     }
                     string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId) + "/mentions";
                      if(parameter != null) {
@@ -543,11 +550,13 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
+                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
                     apiCallResponse = new ApiCallResponse(response);
                     if (apiCallResponse.success)
                     {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
+                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
+                        apiCallResponse.meta = streamResponse.meta;
                     }
                 }
                 catch (Exception exp)
@@ -556,12 +565,81 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
             }
+
 
         }
         #endregion
 
-        
+        #region Stream Markers
+
+        public static class StreamMarkers
+        {
+
+            public static Tuple<StreamMarker, ApiCallResponse> set(string access_token, string streamName, string id, int percentage)
+            {
+                ApiCallResponse apiCallResponse = new ApiCallResponse();
+                StreamMarker receivedStreamMarker = new StreamMarker();
+                StreamMarker toBeStoredStreamMarker = new StreamMarker();
+                try
+                {
+                    if (string.IsNullOrEmpty(access_token))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter access_token";
+                        return new Tuple<StreamMarker, ApiCallResponse>(receivedStreamMarker, apiCallResponse);
+                    }
+                    if (string.IsNullOrEmpty(id))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter id";
+                        return new Tuple<StreamMarker, ApiCallResponse>(receivedStreamMarker, apiCallResponse);
+                    }
+                    if (string.IsNullOrEmpty(streamName))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter streamName";
+                        return new Tuple<StreamMarker, ApiCallResponse>(receivedStreamMarker, apiCallResponse);
+                    }
+
+                    toBeStoredStreamMarker.name = streamName;
+                    toBeStoredStreamMarker.id = id;
+                    toBeStoredStreamMarker.percentage = percentage;
+
+                    string jsonString = JsonConvert.SerializeObject(toBeStoredStreamMarker);
+
+                    string requestUrl = Common.baseUrl + "/stream/0/posts/marker";
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    headers.Add("Authorization", "Bearer " + access_token);
+                    Helper.Response response =  Helper.SendPostRequestStringDataOnly(
+                            requestUrl,
+                            jsonString,
+                            headers,
+                            true,
+                            contentType:"application/json");
+                    apiCallResponse = new ApiCallResponse(response);
+                    if (apiCallResponse.success)
+                    {
+                        receivedStreamMarker = JsonConvert.DeserializeObject<StreamMarker>(response.Content);
+                    }
+                }
+                catch (Exception exp)
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = exp.Message;
+                    apiCallResponse.errorDescription = exp.StackTrace;
+                }
+                return new Tuple<StreamMarker, ApiCallResponse>(receivedStreamMarker, apiCallResponse);
+            }
+        }
+        #endregion
+
+
+        public class StreamResponse
+        {
+            public List<Post> data { get; set; }
+            public Meta meta { get; set; }
+        }
     }
 

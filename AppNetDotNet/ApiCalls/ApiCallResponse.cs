@@ -14,6 +14,7 @@ namespace AppNetDotNet.ApiCalls
         public string errorMessage { get; set; }
         public string errorDescription { get; set; }
         Helper.Response.RateLimits rateLimits { get; set; }
+        public Model.Meta meta { get; set; }
 
         public ApiCallResponse()
         {

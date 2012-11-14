@@ -180,5 +180,10 @@ namespace NymphAppNetTester
             BrowserTest test = new BrowserTest();
             test.Show();
         }
+
+        private void buttonStoreStreamMarker_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppNetDotNet.ApiCalls.StreamMarkers.set(textboxAccessToken.Text, "global", textboxGetPostById.Text, 50);
+        }
     }
 }

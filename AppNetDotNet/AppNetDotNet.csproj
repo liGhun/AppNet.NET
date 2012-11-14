@@ -76,8 +76,10 @@
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
+    <Compile Include="Model\Meta.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\Stream.cs" />
+    <Compile Include="Model\StreamMarker.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ApiCalls\Posts.cs" />

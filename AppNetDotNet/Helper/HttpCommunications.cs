@@ -199,7 +199,7 @@ namespace AppNetDotNet
             }
         }
 
-        public static Response SendPostRequestStringDataOnly(string url, string stringContent, Dictionary<string, string> addtionalHeaders, bool allowAutoRedirect)
+        public static Response SendPostRequestStringDataOnly(string url, string stringContent, Dictionary<string, string> addtionalHeaders, bool allowAutoRedirect, string contentType = null)
         {
             try
             {
@@ -207,7 +207,10 @@ namespace AppNetDotNet
                 request.Method = "POST";
                 request.AllowAutoRedirect = allowAutoRedirect;
                 request.Accept = "*/*";
-
+                if (!string.IsNullOrEmpty(contentType))
+                {
+                    request.ContentType = contentType;
+                }
                 request.CookieContainer = new CookieContainer();
                 foreach (KeyValuePair<string, string> additonalHeader in addtionalHeaders)
                 {
