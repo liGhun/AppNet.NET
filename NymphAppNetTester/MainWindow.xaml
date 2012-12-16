@@ -13,7 +13,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="249,112,0,0" TextWrapping="Wrap" Text="Access token" VerticalAlignment="Top" RenderTransformOrigin="1.172,0.525" Height="19" Width="134" TextAlignment="Right"/>
         <Button Content="Get user stream" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="117" Name="buttonGetPersonalStream" Click="buttonGetPersonalStream_Click_1" />
         <Button x:Name="buttonWritePost" Content="Write Post" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonWritePost_Click"/>
-        <TextBox x:Name="textboxPostText" HorizontalAlignment="Left" Height="60" Margin="132,115,0,0" TextWrapping="Wrap" Text="Example text for posting with Nymphicus" VerticalAlignment="Top" Width="112"/>
+        <TextBox x:Name="textboxMessageText" HorizontalAlignment="Left" Height="60" Margin="679,223,0,0" TextWrapping="Wrap" Text="Example PM for posting with Nymphicus" VerticalAlignment="Top" Width="226"/>
         <Button x:Name="buttonGetPostById" Content="Get post by id" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostById_Click_1" />
         <TextBox x:Name="textboxGetPostById" HorizontalAlignment="Left" Height="23" Margin="132,193,0,0" TextWrapping="Wrap" Text="795025" VerticalAlignment="Top" Width="112"/>
         <Button x:Name="buttonDeletePostById" Content="Delete post by id" HorizontalAlignment="Left" Margin="266,175,0,0" VerticalAlignment="Top" Width="117" Click="buttonDeletePostById_Click_1"/>
@@ -42,6 +42,12 @@
         <Button x:Name="buttonGetFilter" Content="Get filter of user" HorizontalAlignment="Left" Margin="557,153,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetFilter_Click_1" />
         <Button x:Name="buttonBrowserTest" Content="Internal browser test" HorizontalAlignment="Left" Margin="10,547,0,0" VerticalAlignment="Top" Width="234" Click="buttonBrowserTest_Click_1" />
         <Button x:Name="buttonStoreStreamMarker" Content="Store Stream Marker" HorizontalAlignment="Left" Margin="10,416,0,0" VerticalAlignment="Top" Width="117" Click="buttonStoreStreamMarker_Click_1"/>
+        <Button x:Name="buttonCreatePM" Content="Send PM" HorizontalAlignment="Left" Margin="557,194,0,0" VerticalAlignment="Top" Width="117" Click="buttonCreatePM_Click"/>
+        <TextBox x:Name="textboxPmReceipients" HorizontalAlignment="Left" Height="23" Margin="679,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" Text="liGhun"/>
+        <TextBox x:Name="textboxPostText" HorizontalAlignment="Left" Height="60" Margin="132,115,0,0" TextWrapping="Wrap" Text="Example text for posting with Nymphicus" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="buttonChannelsOfLoogedinUser" Content="Get channels of user" HorizontalAlignment="Left" Margin="557,355,0,0" VerticalAlignment="Top" Width="117" Click="buttonChannelsOfLoogedinUser_Click"/>
+        <TextBox x:Name="textboxChannelIds" HorizontalAlignment="Left" Height="23" Margin="679,355,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+        <Button x:Name="buttonGetMessagesInChannel" Content="Get messages in channel" HorizontalAlignment="Left" Margin="557,382,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetMessagesInChannel_Click" />
 
     </Grid>
 </Window>

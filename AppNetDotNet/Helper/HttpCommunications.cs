@@ -238,6 +238,46 @@ namespace AppNetDotNet
             }
         }
 
+        public static Response SendPutRequestStringDataOnly(string url, string stringContent, Dictionary<string, string> addtionalHeaders, bool allowAutoRedirect, string contentType = null)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.Method = "PUT";
+                request.AllowAutoRedirect = allowAutoRedirect;
+                request.Accept = "*/*";
+                if (!string.IsNullOrEmpty(contentType))
+                {
+                    request.ContentType = contentType;
+                }
+                request.CookieContainer = new CookieContainer();
+                foreach (KeyValuePair<string, string> additonalHeader in addtionalHeaders)
+                {
+                    request.Headers.Add(additonalHeader.Key, additonalHeader.Value);
+                }
+
+                byte[] encodedData = new UTF8Encoding().GetBytes(stringContent);
+                request.ContentLength = encodedData.Length;
+
+                using (Stream newStream = request.GetRequestStream())
+                {
+                    newStream.Write(encodedData, 0, encodedData.Length);
+                }
+
+                Response returnValue = GetResponse(request);
+                return returnValue;
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Response nullResponse = new Response();
+                nullResponse.Success = false;
+                nullResponse.Error = e.Message;
+                return nullResponse;
+            }
+        }
+
+
 
         public static Response SendGetRequest(string url)
         {
@@ -337,7 +377,7 @@ namespace AppNetDotNet
             }
         }
 
-        public static Response SendDeleteRequest(string url, Dictionary<string, string> additionalHeaders)
+        public static Response SendDeleteRequest(string url, Dictionary<string, string> additionalHeaders, object data = null)
         {
             try
             {
@@ -351,7 +391,32 @@ namespace AppNetDotNet
                     request.Headers.Add(additonalHeader.Key, additonalHeader.Value);
                 }
 
+                if (data != null)
+                {
+                    string formData = string.Empty;
+                    GetProperties(data).ToList().ForEach(x =>
+                    {
+                        string key = x.Key;
+                        if (x.Key == "newone")
+                        {
+                            // this is a workaround as new is a command in C#...
+                            key = "new";
+                        }
+                        formData += string.Format("{0}={1}&", key, x.Value);
+                    });
+                    formData = formData.TrimEnd('&');
+
+                    byte[] encodedData = new UTF8Encoding().GetBytes(formData);
+                    request.ContentLength = encodedData.Length;
+
+                    using (Stream newStream = request.GetRequestStream())
+                    {
+                        newStream.Write(encodedData, 0, encodedData.Length);
+                    }
+                }
+
                 Response returnValue = GetResponse(request);
+
                 return returnValue;
             }
             catch (System.Exception e)

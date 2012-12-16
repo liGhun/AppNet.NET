@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using AppNetDotNet.Model;
+using AppNetDotNet.Streams.Model;
 
-namespace AppNetDotNet.ApiCalls
+namespace AppNetDotNet.Streams.ApiCalls
 {
     public static class Users
     {
@@ -430,18 +430,6 @@ namespace AppNetDotNet.ApiCalls
         }
 
         #endregion
-
-        public class singleUserResponse
-        {
-            public User data { get; set; }
-            public Meta meta { get; set; }
-        }
-
-        public class multipleUsersResponse
-        {
-            public List<User> data { get; set; }
-            public Meta meta { get; set; }
-        }
 
     }
 }

@@ -59,9 +59,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiCalls\Channels.cs" />
     <Compile Include="ApiCalls\Common.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
+    <Compile Include="ApiCalls\Messages.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscriptions.cs" />
@@ -70,12 +72,15 @@
     <Compile Include="Helper\Authorize new App.net account.xaml.cs">
       <DependentUpon>Authorize new App.net account.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ACL.cs" />
     <Compile Include="Model\Annotation.cs" />
     <Compile Include="Model\Application.cs" />
     <Compile Include="Model\Authorization.cs" />
+    <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
+    <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Meta.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\Stream.cs" />

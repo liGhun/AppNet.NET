@@ -185,5 +185,41 @@ namespace NymphAppNetTester
         {
             AppNetDotNet.ApiCalls.StreamMarkers.set(textboxAccessToken.Text, "global", textboxGetPostById.Text, 50);
         }
+
+        private void buttonCreatePM_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textboxPmReceipients.Text))
+            {
+                string[] receipients = textboxPmReceipients.Text.Split(',');
+                List<string> receipientsList = new List<string>(receipients);
+                AppNetDotNet.ApiCalls.Messages.createPrivateMessage(textboxAccessToken.Text, textboxMessageText.Text, receipientsList);
+            }
+
+        }
+
+        private void buttonChannelsOfLoogedinUser_Click(object sender, RoutedEventArgs e)
+        {
+            Tuple<List<Channel>,ApiCallResponse> response = AppNetDotNet.ApiCalls.Channels.Subscriptions.getOfCurrentUser(textboxAccessToken.Text);
+            if (response.Item2.success)
+            {
+                if (response.Item1 != null)
+                {
+                    List<string> ids = new List<string>();
+                    foreach (Channel channel in response.Item1)
+                    {
+                        if (!string.IsNullOrEmpty(channel.id))
+                        {
+                            ids.Add(channel.id);
+                        }
+                    }
+                    textboxChannelIds.Text = string.Join(",", ids.ToArray());
+                }
+            }
+        }
+
+        private void buttonGetMessagesInChannel_Click(object sender, RoutedEventArgs e)
+        {
+            Tuple<List<Message>, ApiCallResponse> response = AppNetDotNet.ApiCalls.Messages.getMessagesInChannel(textboxAccessToken.Text, textboxChannelIds.Text);
+        }
     }
 }
