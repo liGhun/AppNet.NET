@@ -16,5 +16,24 @@ namespace AppNetDotNet.Model
         public bool you_subscribed { get; set; }
         public bool you_can_edit { get; set; }
         public bool has_unread { get; set; }
+
+        public override string ToString()
+        {
+            string returnCode = "";
+
+            if(!string.IsNullOrEmpty(id)) {
+                returnCode += id + ": ";
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                returnCode += "\"" + type + "\"";
+            }
+            if (owner != null)
+            {
+                returnCode += " of user " + owner;
+            }
+
+            return returnCode;
+        }
     }
 }

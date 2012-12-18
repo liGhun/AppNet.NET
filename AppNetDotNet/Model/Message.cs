@@ -22,5 +22,23 @@ namespace AppNetDotNet.Model
         public bool is_deleted { get; set; }
         public bool machine_only { get; set; }
         public List<string> destinations { get; set; }
+
+        public override string ToString()
+        {
+            string returnString = "";
+            if (!string.IsNullOrEmpty(id))
+            {
+                returnString += id + ": ";
+            }
+            if (!string.IsNullOrEmpty(text))
+            {
+                returnString += text;
+            }
+            if (user != null)
+            {
+                returnString += " by " + user;
+            }
+            return returnString;
+        }
     }
 }
