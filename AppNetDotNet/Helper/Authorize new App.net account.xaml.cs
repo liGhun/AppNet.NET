@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Reflection;
-
+using System.Text.RegularExpressions;
 
 namespace AppNetDotNet
 {
@@ -26,50 +26,50 @@ namespace AppNetDotNet
 
         private bool complete { get; set; }
 
+        public string authUrl { get; private set; }
+
+        public System.Windows.Forms.WebBrowser webBrowserAuthorization;
+
         public AuthorizationWindow(string clientId, string redirectUrl, string scope)
         {
             InitializeComponent();
-
             Guid guid = System.Guid.NewGuid();
             state = guid.ToString();
+
+            System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+            webBrowserAuthorization = new System.Windows.Forms.WebBrowser();
+            host.Child = webBrowserAuthorization;
+
+            this.mainGrid.Children.Add(host);
+            webBrowserAuthorization.LocationChanged += webBrowserAuthorization_LocationChanged;
             webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
-            string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=token&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
-            webBrowserAuthorization.Navigate(authUrl);
-            this.Show();
+            //webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
+            //webBrowserAuthorization.Navigate("https://alpha.app.net/logout/");
+
+            webBrowserAuthorization.Navigated += webBrowserAuthorization_Navigated;
+            authUrl = string.Format("https://account.app.net/oauth/authenticate?client_id={0}&response_type=token&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
+            
         }
 
-        public  AuthorizationWindow(string clientId, string redirectUrl, string scope, bool serverSide)
+        void webBrowserAuthorization_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
         {
-            InitializeComponent();
-            Guid guid = System.Guid.NewGuid();
-            state = guid.ToString();
-            webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
-            webBrowserAuthorization.Navigate("https://alpha.app.net/logout/");
-            string authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=code&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
-            webBrowserAuthorization.Navigate(authUrl);
-        }
-
-
-
-        void webBrowserAuthorization_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
-        {
-            if (complete)
-            {
-                return;
-            }
             if (e != null)
-            {            
-                if(e.Uri.AbsoluteUri.Contains("code=")) {
-                    e.Cancel = true;
-                    webBrowserAuthorization = null;
+            {
+                if (e.Url.AbsoluteUri.Contains("code="))
+                {
                     complete = true;
-                    Helper.Response response = Helper.SendGetRequest(e.Uri.AbsoluteUri);
+                    
+                    Helper.Response response = Helper.SendGetRequest(e.Url.AbsoluteUri);
                     AuthEventArgs eventArgs = new AuthEventArgs();
                     if (!string.IsNullOrEmpty(response.Content))
                     {
-                        if(!response.Content.StartsWith("ERROR:::")) {
+                        if (!response.Content.StartsWith("ERROR:::"))
+                        {
                             eventArgs.accessToken = response.Content;
                             eventArgs.success = true;
+                            AuthSuccess(this, eventArgs);
+                            Close();
+                            return;
                         }
                         else
                         {
@@ -82,6 +82,214 @@ namespace AppNetDotNet
                     }
                     AuthSuccess(this, eventArgs);
                     Close();
+                }
+
+                if (e.Url != null)
+                {
+
+                    if (e.Url.AbsoluteUri.Contains("#access_token="))
+                    {
+                        AuthEventArgs eventArgs = new AuthEventArgs();
+                        complete = true;
+
+                        string regexParams = "#access_token=(.*?)[&|\\?]";
+                        
+                        Regex regex = new Regex(regexParams);
+
+                        Match match = regex.Match(e.Url.AbsoluteUri);
+
+                        string accessToken = "";
+                        if (match.Success)
+                        {
+                            accessToken = match.Groups[1].Value;
+                            eventArgs.success = true;
+                            eventArgs.accessToken = accessToken;
+                            eventArgs.error = "";
+                        }
+                        else
+                        {
+                            eventArgs.error = "Parsing error on access token";
+                        }
+
+                        AuthSuccess(this, eventArgs);
+                        Close();
+                    }
+                }
+            }
+        }
+
+        void webBrowserAuthorization_Navigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
+        {
+             if (complete)
+            {
+                return;
+            }
+            WebBrowser browser = sender as WebBrowser;
+            if (e != null)
+            {
+
+                if (e.Url.AbsoluteUri.Contains("code="))
+                {
+                    complete = true;
+                    e.Cancel = true;
+                    Helper.Response response = Helper.SendGetRequest(e.Url.AbsoluteUri);
+                    AuthEventArgs eventArgs = new AuthEventArgs();
+                    if (!string.IsNullOrEmpty(response.Content))
+                    {
+                        if (!response.Content.StartsWith("ERROR:::"))
+                        {
+                            eventArgs.accessToken = response.Content;
+                            eventArgs.success = true;
+                            AuthSuccess(this, eventArgs);
+                            Close();
+                            return;
+                        }
+                        else
+                        {
+                            eventArgs.error = response.Content.Substring(8);
+                        }
+                    }
+                    else
+                    {
+                        eventArgs.error = "Null response";
+                    }
+                    AuthSuccess(this, eventArgs);
+                    Close();
+                }
+
+                if (e.Url != null)
+                {
+
+                    if (e.Url.AbsoluteUri.Contains("#access_token="))
+                    {
+                        AuthEventArgs eventArgs = new AuthEventArgs();
+                        complete = true;
+                        e.Cancel = true;
+                        string regexParams = "#access_token=([A-Za-z0-9]*)";
+                        Regex regex = new Regex(regexParams);
+                        Match match = regex.Match(e.Url.AbsoluteUri);
+
+                        string accessToken = "";
+                        if (match.Success)
+                        {
+                            accessToken = match.Groups[1].Value;
+                            eventArgs.success = true;
+                            eventArgs.accessToken = accessToken;
+                            eventArgs.error = "";
+                        }
+                        else
+                        {
+                            eventArgs.error = "Parsing error";
+                        }
+
+                        AuthSuccess(this, eventArgs);
+                        Close();
+                    }
+                }
+            }
+        }
+
+        void webBrowserAuthorization_LocationChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(e);
+        }
+
+        void webBrowserAuthorization_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (e != null)
+            {
+                
+            }
+        }
+
+        void webBrowserAuthorization_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            if (e != null)
+            {
+                WebBrowser browser = sender as WebBrowser;
+                MessageBox.Show(e.Source.ToString());
+            }
+        }
+
+        public  AuthorizationWindow(string clientId, string redirectUrl, string scope, bool serverSide)
+        { /*
+            InitializeComponent();
+            Guid guid = System.Guid.NewGuid();
+            state = guid.ToString();
+            webBrowserAuthorization.Navigating += webBrowserAuthorization_Navigating;
+            webBrowserAuthorization.Navigate("https://alpha.app.net/logout/");
+            webBrowserAuthorization.SourceUpdated += webBrowserAuthorization_SourceUpdated;
+            authUrl = string.Format("https://alpha.app.net/oauth/authenticate?client_id={0}&response_type=code&redirect_uri={1}&scope={2}&state={3}", System.Web.HttpUtility.UrlEncode(clientId), System.Web.HttpUtility.UrlEncode(redirectUrl), System.Web.HttpUtility.UrlEncode(scope), System.Web.HttpUtility.UrlEncode(state));
+           * */
+        }
+
+
+
+        void webBrowserAuthorization_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+        {
+            if (complete)
+            {
+                return;
+            }
+            WebBrowser browser = sender as WebBrowser;
+            if (e != null && browser != null)
+            {            
+
+                if(e.Uri.AbsoluteUri.Contains("code=")) {
+                    complete = true;
+                    e.Cancel = true;
+                    Helper.Response response = Helper.SendGetRequest(e.Uri.AbsoluteUri);
+                    AuthEventArgs eventArgs = new AuthEventArgs();
+                    if (!string.IsNullOrEmpty(response.Content))
+                    {
+                        if(!response.Content.StartsWith("ERROR:::")) {
+                            eventArgs.accessToken = response.Content;
+                            eventArgs.success = true;
+                            AuthSuccess(this, eventArgs);
+                            Close();
+                            return;
+                        }
+                        else
+                        {
+                            eventArgs.error = response.Content.Substring(8);
+                        }
+                    }
+                    else
+                    {
+                        eventArgs.error = "Null response";
+                    }
+                    AuthSuccess(this, eventArgs);
+                    Close();
+                }
+
+                if (browser.Source != null && false)
+                {
+                    
+                    if (browser.Source.Fragment.Contains("#access_token="))
+                    {
+                        AuthEventArgs eventArgs = new AuthEventArgs();
+                        complete = true;
+                        e.Cancel = true;
+                        string regexParams = "#access_token=([A-Za-z0-9]*)";
+                        Regex regex = new Regex(regexParams);
+                        Match match = regex.Match(e.Uri.AbsoluteUri);
+
+                        string accessToken = "";
+                        if (match.Success)
+                        {
+                            accessToken = match.Groups[1].Value;
+                            eventArgs.success = true;
+                            eventArgs.accessToken = accessToken;
+                            eventArgs.error = "";
+                        }
+                        else
+                        {
+                            eventArgs.error = "Parsing error";
+                        }
+
+                        AuthSuccess(this, eventArgs);
+                        Close();
+                    }
                 }
             }
         }

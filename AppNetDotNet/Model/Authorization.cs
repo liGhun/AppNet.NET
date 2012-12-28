@@ -29,6 +29,43 @@ namespace AppNetDotNet.Model
                 if (authWindowServerSide != null)
                 {
                     authWindowServerSide.Show();
+                    authWindowServerSide.webBrowserAuthorization.Navigate(authWindowServerSide.authUrl);
+                }
+                else
+                {
+                    throw new AuthWindowNotAvailableException();
+                }
+            }
+
+            void authWindowServerSide_AuthSuccess(object sender, AuthorizationWindow.AuthEventArgs e)
+            {
+                AuthSuccess(this, e);
+            }
+
+            public event AuthEventHandler AuthSuccess;
+            public delegate void AuthEventHandler(object sender, AuthorizationWindow.AuthEventArgs e);
+        }
+
+        public class clientSideFlow
+        {
+            private AuthorizationWindow authWindowClientSide { get; set; }
+
+            public clientSideFlow(string clientId, string redirectUrl, string scope)
+            {
+                authWindowClientSide = new AuthorizationWindow(clientId, redirectUrl, scope);
+                authWindowClientSide.AuthSuccess += authWindowServerSide_AuthSuccess;
+            }
+
+            public void showAuthWindow()
+            {
+                if (AuthSuccess == null)
+                {
+                    throw new AuthSuccessNotMonitoredException();
+                }
+                if (authWindowClientSide != null)
+                {
+                    authWindowClientSide.Show();
+                    authWindowClientSide.webBrowserAuthorization.Navigate(authWindowClientSide.authUrl);
                 }
                 else
                 {
@@ -51,7 +88,7 @@ namespace AppNetDotNet.Model
         public static Authorization AuthorizeNewAccount(string redirectUrl, string scope)
         {
             Authorization account = new Authorization();
-            AuthorizationWindow authWindow = new AuthorizationWindow(clientId, redirectUrl, scope, true);
+            AuthorizationWindow authWindow = new AuthorizationWindow(clientId, redirectUrl, scope);
             authWindow.AuthSuccess += authWindow_AuthSuccess;
             authWindow.Show();
             return account;

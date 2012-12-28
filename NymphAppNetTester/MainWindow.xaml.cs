@@ -30,10 +30,14 @@ namespace NymphAppNetTester
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Authorization.serverSideFlow apnAuthProcess = new Authorization.serverSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
+           /* Authorization.serverSideFlow apnAuthProcess = new Authorization.serverSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
             apnAuthProcess.AuthSuccess += authProcess_AuthSuccess;
             apnAuthProcess.showAuthWindow();
+            * */
 
+            Authorization.clientSideFlow  apnAuthProcess = new Authorization.clientSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/chapper/", "basic stream write_post follow messages");
+            apnAuthProcess.AuthSuccess += authProcess_AuthSuccess;
+            apnAuthProcess.showAuthWindow();
 
             //AppNetDotNet.Model.Authorization.clientId = "8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m";
             //AppNetDotNet.Model.Authorization account = AppNetDotNet.Model.Authorization.AuthorizeNewAccount("http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
