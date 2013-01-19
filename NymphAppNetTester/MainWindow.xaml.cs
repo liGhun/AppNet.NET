@@ -60,8 +60,12 @@ namespace NymphAppNetTester
 
         private void buttonGetPersonalStream_Click_1(object sender, RoutedEventArgs e)
         {
-            Tuple<List<Post>,ApiCallResponse> streanItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text);
-            Console.WriteLine("klkj");
+            Tuple<List<Post>, ApiCallResponse> streamItems;
+            ParametersMyStream parameters = new ParametersMyStream();
+            parameters.count = 100;
+
+            streamItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text,parameters);
+            Console.WriteLine(streamItems.ToString());
         }
 
         private void buttonWritePost_Click(object sender, RoutedEventArgs e)
@@ -71,12 +75,16 @@ namespace NymphAppNetTester
 
         private void buttonGetPostById_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Posts.getById(textboxAccessToken.Text, textboxGetPostById.Text);
+            Tuple<Post, ApiCallResponse> post;
+           post = AppNetDotNet.ApiCalls.Posts.getById(textboxAccessToken.Text, textboxGetPostById.Text);
+           Console.WriteLine(post.ToString());
         }
 
         private void buttonDeletePostById_Click_1(object sender, RoutedEventArgs e)
         {
-            AppNetDotNet.ApiCalls.Posts.delete(textboxAccessToken.Text, textboxDeletePostById.Text);
+            
+             AppNetDotNet.ApiCalls.Posts.delete(textboxAccessToken.Text, textboxDeletePostById.Text);
+             
         }
 
         private void buttonGetPostRepliesById_Click_1(object sender, RoutedEventArgs e)
