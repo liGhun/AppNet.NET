@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="ApiCalls\Channels.cs" />
     <Compile Include="ApiCalls\Common.cs" />
+    <Compile Include="ApiCalls\Files.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
     <Compile Include="ApiCalls\Messages.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Model\Application.cs" />
     <Compile Include="Model\Authorization.cs" />
     <Compile Include="Model\Channel.cs" />
+    <Compile Include="Model\File.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
@@ -99,6 +101,11 @@
     <Compile Include="ApiCalls\Posts.cs" />
     <Compile Include="Helper\HttpCommunications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Helper\Authorize new App.net account.xaml">
@@ -113,7 +120,12 @@
     <Resource Include="Newtonsoft.Json.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="CertForTests.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

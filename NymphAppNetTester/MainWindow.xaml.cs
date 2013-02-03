@@ -26,6 +26,8 @@ namespace NymphAppNetTester
         public MainWindow()
         {
             InitializeComponent();
+
+            this.textboxAccessToken.Text = Properties.Settings.Default.AccessToken;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -35,12 +37,12 @@ namespace NymphAppNetTester
             apnAuthProcess.showAuthWindow();
             * */
 
-            Authorization.clientSideFlow  apnAuthProcess = new Authorization.clientSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/chapper/", "basic stream write_post follow messages");
+            Authorization.clientSideFlow  apnAuthProcess = new Authorization.clientSideFlow("8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m", "http://www.nymphicusapp.com/windows/appnet/chapper/", "basic stream write_post follow messages files");
             apnAuthProcess.AuthSuccess += authProcess_AuthSuccess;
             apnAuthProcess.showAuthWindow();
 
             //AppNetDotNet.Model.Authorization.clientId = "8D2p3y9FgZWaKuVvkYnkNShS5KXuNB2m";
-            //AppNetDotNet.Model.Authorization account = AppNetDotNet.Model.Authorization.AuthorizeNewAccount("http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages");
+            //AppNetDotNet.Model.Authorization account = AppNetDotNet.Model.Authorization.AuthorizeNewAccount("http://www.nymphicusapp.com/windows/appnet/serverSide", "basic stream write_post follow messages files");
         }
 
         void authProcess_AuthSuccess(object sender, AuthorizationWindow.AuthEventArgs e)
@@ -50,6 +52,7 @@ namespace NymphAppNetTester
                 if (e.success)
                 {
                     MessageBox.Show(e.accessToken, "Access token");
+                    this.textboxAccessToken.Text = e.accessToken;
                 }
                 else
                 {
@@ -63,6 +66,7 @@ namespace NymphAppNetTester
             Tuple<List<Post>, ApiCallResponse> streamItems;
             ParametersMyStream parameters = new ParametersMyStream();
             parameters.count = 100;
+            parameters.include_annotations = true;
 
             streamItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text,parameters);
             Console.WriteLine(streamItems.ToString());
@@ -232,6 +236,18 @@ namespace NymphAppNetTester
         private void buttonGetMessagesInChannel_Click(object sender, RoutedEventArgs e)
         {
             Tuple<List<Message>, ApiCallResponse> response = AppNetDotNet.ApiCalls.Messages.getMessagesInChannel(textboxAccessToken.Text, textboxChannelIds.Text);
+        }
+
+        private void button_openFilesWindow_Click(object sender, RoutedEventArgs e)
+        {
+            FileApiTests fileWindow = new FileApiTests(textboxAccessToken.Text);
+            fileWindow.Show();
+        }
+
+        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.AccessToken = textboxAccessToken.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

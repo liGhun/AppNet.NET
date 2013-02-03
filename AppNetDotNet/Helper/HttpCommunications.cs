@@ -41,11 +41,14 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace AppNetDotNet
 {
     public static class Helper
     {
+        
+
         public static Encoding encoding = Encoding.ASCII;
 
         /// <summary>
@@ -277,7 +280,85 @@ namespace AppNetDotNet
             }
         }
 
+        public static Response SendPutRequestBinaryDataOnly(string url, byte[] binaryContent, Dictionary<string, string> addtionalHeaders, bool allowAutoRedirect, string contentType = null)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.Method = "PUT";
+                request.AllowAutoRedirect = allowAutoRedirect;
+                request.Accept = "*/*";
+                request.ContentType = "multipart/form-data";
+                if (!string.IsNullOrEmpty(contentType))
+                {
+                    request.ContentType = contentType;
+                }
+                request.CookieContainer = new CookieContainer();
+                foreach (KeyValuePair<string, string> additonalHeader in addtionalHeaders)
+                {
+                    request.Headers.Add(additonalHeader.Key, additonalHeader.Value);
+                }
 
+                request.ContentLength = binaryContent.Length;
+
+                using (Stream newStream = request.GetRequestStream())
+                {
+                    newStream.Write(binaryContent, 0, binaryContent.Length);
+                }
+
+                Response returnValue = GetResponse(request);
+                return returnValue;
+            }
+           
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Response nullResponse = new Response();
+                nullResponse.Success = false;
+                nullResponse.Error = e.Message;
+                return nullResponse;
+            }
+        }
+
+        public static Response SendPutRequestBase64File(string url, byte[] binaryContent, Dictionary<string, string> addtionalHeaders, bool allowAutoRedirect, string contentType = null)
+        {
+            throw new NotImplementedException();
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+                request.Method = "PUT";
+                request.AllowAutoRedirect = allowAutoRedirect;
+                request.Accept = "*/*";
+                if (!string.IsNullOrEmpty(contentType))
+                {
+                    request.ContentType = contentType;
+                }
+                request.CookieContainer = new CookieContainer();
+                foreach (KeyValuePair<string, string> additonalHeader in addtionalHeaders)
+                {
+                    request.Headers.Add(additonalHeader.Key, additonalHeader.Value);
+                }
+
+                byte[] encodedData = binaryContent;
+                request.ContentLength = encodedData.Length;
+
+                using (Stream newStream = request.GetRequestStream())
+                {
+                    newStream.Write(encodedData, 0, encodedData.Length);
+                }
+
+                Response returnValue = GetResponse(request);
+                return returnValue;
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Response nullResponse = new Response();
+                nullResponse.Success = false;
+                nullResponse.Error = e.Message;
+                return nullResponse;
+            }
+        }
 
         public static Response SendGetRequest(string url)
         {
@@ -442,14 +523,23 @@ namespace AppNetDotNet
             return url;
         }
 
-        private static Response GetResponse(HttpWebRequest request)
+        public static Response GetResponse(HttpWebRequest request)
         {
 
-            HttpWebResponse response;
+            HttpWebResponse response = null;
             try
             {
-                HttpWebResponse responseTemp = (HttpWebResponse)request.GetResponse();
-                response = responseTemp;
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (WebException e)
+            {
+                HttpWebResponse httpResponse = (HttpWebResponse)e.Response;
+                Console.WriteLine("Error code: {0}", httpResponse.StatusCode);
+                System.IO.Stream data = e.Response.GetResponseStream();
+
+                string text = new System.IO.StreamReader(data).ReadToEnd();
+                Console.WriteLine(text);
+                    
             }
             catch (System.Exception e)
             {
@@ -584,6 +674,45 @@ namespace AppNetDotNet
                 StatusCode = HttpStatusCode.OK;
                 FullHeaders = new WebHeaderCollection();
                 rateLimits = new RateLimits();
+            }
+        }
+        [DllImport(@"urlmon.dll", CharSet = CharSet.Auto)]
+        private extern static System.UInt32 FindMimeFromData(
+        System.UInt32 pBC,
+        [MarshalAs(UnmanagedType.LPStr)] System.String pwzUrl,
+        [MarshalAs(UnmanagedType.LPArray)] byte[] pBuffer,
+        System.UInt32 cbSize,
+        [MarshalAs(UnmanagedType.LPStr)] System.String pwzMimeProposed,
+        System.UInt32 dwMimeFlags,
+        out System.UInt32 ppwzMimeOut,
+        System.UInt32 dwReserverd
+    );
+
+        public static string getMimeFromFile(string filename)
+        {
+            if (!File.Exists(filename))
+                throw new FileNotFoundException(filename + " not found");
+
+            byte[] buffer = new byte[256];
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                if (fs.Length >= 256)
+                    fs.Read(buffer, 0, 256);
+                else
+                    fs.Read(buffer, 0, (int)fs.Length);
+            }
+            try
+            {
+                System.UInt32 mimetype;
+                FindMimeFromData(0, null, buffer, 256, null, 0, out mimetype, 0);
+                System.IntPtr mimeTypePtr = new IntPtr(mimetype);
+                string mime = Marshal.PtrToStringUni(mimeTypePtr);
+                Marshal.FreeCoTaskMem(mimeTypePtr);
+                return mime;
+            }
+            catch (Exception e)
+            {
+                return "unknown/unknown";
             }
         }
 
