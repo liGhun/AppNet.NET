@@ -249,5 +249,11 @@ namespace NymphAppNetTester
             Properties.Settings.Default.AccessToken = textboxAccessToken.Text;
             Properties.Settings.Default.Save();
         }
+
+        private void button_openPlacesWindow_Click(object sender, RoutedEventArgs e)
+        {
+            NymphAppNetTester.Places window = new Places(textboxAccessToken.Text);
+            window.Show();
+        }
     }
 }

@@ -51,6 +51,7 @@
         <TextBox x:Name="textboxChannelIds" HorizontalAlignment="Left" Height="23" Margin="679,355,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
         <Button x:Name="buttonGetMessagesInChannel" Content="Get messages in channel" HorizontalAlignment="Left" Margin="557,382,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetMessagesInChannel_Click" />
         <Button x:Name="button_openFilesWindow" Content="Open files test window" HorizontalAlignment="Left" Margin="557,440,0,0" VerticalAlignment="Top" Width="117" Click="button_openFilesWindow_Click"/>
+        <Button x:Name="button_openPlacesWindow" Content="Open place window" HorizontalAlignment="Left" Margin="557,467,0,0" VerticalAlignment="Top" Width="117" Click="button_openPlacesWindow_Click" />
 
     </Grid>
 </Window>

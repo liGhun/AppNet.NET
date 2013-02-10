@@ -67,6 +67,7 @@
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
     <Compile Include="ApiCalls\Messages.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
+    <Compile Include="ApiCalls\Places.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscriptions.cs" />
     <Compile Include="ApiCalls\Tokens.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Model\Entities.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Meta.cs" />
+    <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\Stream.cs" />
     <Compile Include="Model\StreamMarker.cs" />
