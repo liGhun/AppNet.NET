@@ -223,7 +223,7 @@ namespace AppNetDotNet.ApiCalls
 
                     if (parameters != null)
                     {
-                        requestUrl += requestUrl + "?" + parameters.getQueryString();
+                        requestUrl += "/?" + parameters.getQueryString();
                     }
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
