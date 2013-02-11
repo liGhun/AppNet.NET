@@ -172,7 +172,7 @@ namespace AppNetDotNet.ApiCalls
 
         public class Subscriptions
         {
-            public static Tuple<List<Channel>, ApiCallResponse> getOfCurrentUser(string access_token)
+            public static Tuple<List<Channel>, ApiCallResponse> getOfCurrentUser(string access_token, channelParameters parameters = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<Channel> channels = new List<Channel>();
@@ -187,6 +187,10 @@ namespace AppNetDotNet.ApiCalls
                     }
 
                     string requestUrl = Common.baseUrl + "/stream/0/channels";
+                    if (parameters != null)
+                    {
+                        requestUrl += "?" + parameters.getQueryString();
+                    }
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -418,5 +422,63 @@ namespace AppNetDotNet.ApiCalls
             public Meta meta { get; set; }
         }
 
+        public class channelParameters
+        {
+            /// <summary>
+            /// A comma separated list of the Channel types to include. For instance channel_types=net.app.core.pm,net.myapp.room will only return channels with a type of net.app.core.pm or net.myapp.room.
+            /// </summary>
+            public string channel_types { get; set; }
+            /// <summary>
+            /// Should the Stream Marker be included with each Channel? Only available when requested with a user access token. Defaults to false.
+            /// </summary>
+            public bool include_marker { get; set; }
+            /// <summary>
+            /// Should the most recent Message be included with each Channel? Defaults to false.
+            /// </summary>
+            public bool include_recent_message { get; set; }
+            /// <summary>
+            /// Should annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_annotations { get; set; }
+            /// <summary>
+            /// Should User annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_user_annotations { get; set; }
+            /// <summary>
+            /// Should Message annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_message_annotations { get; set; }
+
+            public string getQueryString()
+            {
+                string queryString = "";
+                if (!string.IsNullOrEmpty(channel_types))
+                {
+                    queryString += "channel_types=" + channel_types + "&";
+                }
+                if (include_marker)
+                {
+                    queryString += "include_marker=1&";
+                }
+                if (include_recent_message)
+                {
+                    queryString += "include_recent_message=1&";
+                }
+                if (include_annotations)
+                {
+                    queryString += "include_annotations=1&";
+                }
+                if (include_user_annotations)
+                {
+                    queryString += "include_user_annotations=1&";
+                }
+                if (include_message_annotations)
+                {
+                    queryString += "include_message_annotations=1&";
+                }
+                queryString = queryString.TrimEnd('&');
+                return queryString;
+            }
+        }
     }
 }

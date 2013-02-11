@@ -9,6 +9,7 @@ namespace AppNetDotNet.Model
     {
         public string id { get; set; }
         public string type { get; set; }
+        public Counts counts { get; set; }
         public User owner { get; set; }
         public List<Annotation> annotations { get; set; }
         public ACL readers { get; set; }
@@ -16,6 +17,9 @@ namespace AppNetDotNet.Model
         public bool you_subscribed { get; set; }
         public bool you_can_edit { get; set; }
         public bool has_unread { get; set; }
+        public StreamMarker marker { get; set; }
+        public string recent_message_id { get; set; }
+        public Message recent_message { get; set; }
 
         public override string ToString()
         {
@@ -35,5 +39,11 @@ namespace AppNetDotNet.Model
 
             return returnCode;
         }
+
+        public class Counts
+        {
+            public int messages { get; set; }
+        }
+
     }
 }

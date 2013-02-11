@@ -84,6 +84,10 @@ namespace AppNetDotNet.Model
                     {
                         return JsonConvert.DeserializeObject<Annotations.TwitterUsername>(value.ToString());
                     }
+                case "net.patter-app.settings":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.Patter>(value.ToString());
+                    }
             }
             return null;
         }

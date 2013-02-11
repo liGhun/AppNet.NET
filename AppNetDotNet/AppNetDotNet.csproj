@@ -84,6 +84,7 @@
     <Compile Include="Model\Annotations\GeoLocation.cs" />
     <Compile Include="Model\Annotations\Homepage.cs" />
     <Compile Include="Model\Annotations\Language.cs" />
+    <Compile Include="Model\Annotations\Patter.cs" />
     <Compile Include="Model\Annotations\TwitterUsername.cs" />
     <Compile Include="Model\Application.cs" />
     <Compile Include="Model\Authorization.cs" />

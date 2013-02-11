@@ -197,7 +197,7 @@ namespace AppNetDotNet.ApiCalls
             }
         }
 
-        public static Tuple<List<Message>, ApiCallResponse> getMessagesInChannel(string access_token, string channelId)
+        public static Tuple<List<Message>, ApiCallResponse> getMessagesInChannel(string access_token, string channelId, messageParameters parameters = null)
         {
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
@@ -218,7 +218,13 @@ namespace AppNetDotNet.ApiCalls
                         return new Tuple<List<Message>, ApiCallResponse>(messages, apiCallResponse);
                     }
 
+                    
                     string requestUrl = Common.baseUrl + "/stream/0/channels/" + channelId + "/messages";
+
+                    if (parameters != null)
+                    {
+                        requestUrl += requestUrl + "?" + parameters.getQueryString();
+                    }
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -255,5 +261,70 @@ namespace AppNetDotNet.ApiCalls
             public List<Message> data { get; set; }
             public Meta meta { get; set; }
         }
+
+        public class messageParameters
+        {
+            /// <summary>
+            /// Should Messages from muted Users be included? Defaults to false except when you specifically request a Message from a muted User.
+            /// </summary>
+            public bool include_muted { get; set; }
+            /// <summary>
+            /// Should deleted Messages be included? Defaults to true.
+            /// </summary>
+            public bool include_deleted { get; set; }
+            /// <summary>
+            /// Should machine only Messages be included? Defaults to false.
+            /// </summary>
+            public bool include_machine { get; set; }
+            /// <summary>
+            /// Should annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_annotations { get; set; }
+            /// <summary>
+            /// Should User annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_user_annotations { get; set; }
+            /// <summary>
+            /// Should Message annotations be included in the response objects? Defaults to false.
+            /// </summary>
+            public bool include_message_annotations { get; set; }
+
+            public messageParameters()
+            {
+                include_annotations = true;
+            }
+
+            public string getQueryString()
+            {
+                string queryString = "";
+                if (!include_muted)
+                {
+                    queryString += "include_muted=0&";
+                }
+                if (include_deleted)
+                {
+                    queryString += "include_deleted=1&";
+                }
+                if (include_machine)
+                {
+                    queryString += "include_machine=1&";
+                }
+                if (include_annotations)
+                {
+                    queryString += "include_annotations=1&";
+                }
+                if (include_user_annotations)
+                {
+                    queryString += "include_user_annotations=1&";
+                }
+                if (include_message_annotations)
+                {
+                    queryString += "include_message_annotations=1&";
+                }
+                queryString = queryString.TrimEnd('&');
+                return queryString;
+            }
+        }
+        
     }
 }
