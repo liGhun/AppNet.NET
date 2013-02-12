@@ -157,5 +157,29 @@ namespace NymphAppNetTester
                 }
             }
         }
+
+        private void button_uploadFileAndCreatePost_Click_1(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.DefaultExt = ".*"; // Default file extension
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                Tuple<File,ApiCallResponse> uploadedFile = AppNetDotNet.ApiCalls.Files.create(userToken, dlg.FileName, type: textbox_type.Text);
+                if (uploadedFile.Item2.success)
+                {
+                    List<File> files = new List<File>();
+                    files.Add(uploadedFile.Item1);
+                    Posts.create(userToken, textbox_postContent.Text, toBeEmbeddedFiles: files);
+                }
+            }
+        }
     }
 }

@@ -708,6 +708,21 @@ namespace AppNetDotNet
                 System.IntPtr mimeTypePtr = new IntPtr(mimetype);
                 string mime = Marshal.PtrToStringUni(mimeTypePtr);
                 Marshal.FreeCoTaskMem(mimeTypePtr);
+                switch (mime)
+                {
+                    case "image/x-png":
+                        mime = "image/png";
+                        break;
+                    case "image/x-jpg":
+                        mime = "image/jpg";
+                        break;
+                    case "image/x-jpeg":
+                        mime = "image/jpeg";
+                        break;
+                    case "image/x-gif":
+                        mime = "image/gif";
+                        break;
+                }
                 return mime;
             }
             catch (Exception e)

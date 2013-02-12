@@ -121,7 +121,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
         }
 
-        public static Tuple<File, ApiCallResponse> setContent(string access_token, string file_id, string local_file_path, string file_type = null, FileQueryParameters parameter = null)
+        public static Tuple<File, ApiCallResponse> setContent(string access_token, string file_id, string local_file_path, string file_type = null, string mimeType = null, FileQueryParameters parameter = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             File file = new File();
@@ -162,15 +162,19 @@ namespace AppNetDotNet.ApiCalls
                         byte[] data = new byte[fs.Length];
                         fs.Read(data, 0, data.Length);
                         fs.Close();
+
+                        if (string.IsNullOrEmpty(mimeType))
+                        {
+                            mimeType = Helper.getMimeFromFile(local_file_path);
+                        }
                          
                         Helper.Response response = Helper.SendPutRequestBinaryDataOnly(
                                 requestUrl,
                                 data,
                                 headers,
                                 true,
-                                contentType: Helper.getMimeFromFile(local_file_path)
+                                contentType: mimeType 
                                 );
-
                         apiCallResponse = new ApiCallResponse(response);
 
                         if (apiCallResponse.success)
@@ -261,7 +265,8 @@ namespace AppNetDotNet.ApiCalls
                     file = JsonConvert.DeserializeObject<File>(response.Content);
                     if (!string.IsNullOrEmpty(local_file_path))
                     {
-                        return setContent(access_token, file.id, local_file_path);
+                        setContent(access_token, file.id, local_file_path);
+                        
                     }
                 }
 

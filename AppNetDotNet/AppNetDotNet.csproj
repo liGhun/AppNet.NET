@@ -76,6 +76,7 @@
       <DependentUpon>Authorize new App.net account.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ACL.cs" />
+    <Compile Include="Model\Annotations\AnnotationReplacement_File.cs" />
     <Compile Include="Model\Annotations\Annotations.cs" />
     <Compile Include="Model\Annotations\BlogUrl.cs" />
     <Compile Include="Model\Annotations\Crosspost.cs" />

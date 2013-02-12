@@ -97,7 +97,7 @@ namespace AppNetDotNet.ApiCalls
         public static class Posts
         {
             
-            public static Tuple<Post,ApiCallResponse> create(string access_token, string text, string reply_to = null)
+            public static Tuple<Post,ApiCallResponse> create(string access_token, string text, string reply_to = null, List<File> toBeEmbeddedFiles = null, List<Annotation> annotations = null, Entities entities = null, int machine_only = 0)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 Post post = new Post();
@@ -118,28 +118,41 @@ namespace AppNetDotNet.ApiCalls
                     string requestUrl = Common.baseUrl + "/stream/0/posts";
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
+
+                    postCreateParameters postCreateContent = new postCreateParameters();
+                    postCreateContent.text = text;
+                    postCreateContent.reply_to = reply_to;
+                    postCreateContent.machine_only = machine_only;
+                    postCreateContent.entities = entities;
+                    //postCreateContent.annotations = annotations;
+                    if (toBeEmbeddedFiles != null)
+                    {
+                        if (postCreateContent.annotations == null)
+                        {
+                            postCreateContent.annotations = new List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File>();
+                        }
+                        foreach (File file in toBeEmbeddedFiles)
+                        {
+                            AppNetDotNet.Model.Annotations.AnnotationReplacement_File fileReplacementAnnotation = new AppNetDotNet.Model.Annotations.AnnotationReplacement_File(file);
+                            postCreateContent.annotations.Add(fileReplacementAnnotation);
+                        }
+                    }
+
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.NullValueHandling = NullValueHandling.Ignore;
+
+                    string jsonString = JsonConvert.SerializeObject(postCreateContent, Formatting.None, settings);
+
+                    jsonString = jsonString.Replace("netAppCoreFile_dummy_for_replacement", "+net.app.core.file");
+
                     Helper.Response response;
-                    if (string.IsNullOrEmpty(reply_to))
-                    {
-                        response = Helper.SendPostRequest(
+                        response = Helper.SendPostRequestStringDataOnly(
                             requestUrl,
-                            new
-                            {
-                                text = text,
-                            },
-                            additionalHeaders: headers);
-                    }
-                    else
-                    {
-                        response = Helper.SendPostRequest(
-                            requestUrl,
-                            new
-                            {
-                                text = text,
-                                reply_to = reply_to
-                            },
-                            additionalHeaders: headers);
-                    }
+                            jsonString,
+                            headers,
+                            true,
+                            contentType: "application/json");
+                    
                     apiCallResponse = new ApiCallResponse(response);
                     if (apiCallResponse.success)
                     {
@@ -640,6 +653,15 @@ namespace AppNetDotNet.ApiCalls
         {
             public List<Post> data { get; set; }
             public Meta meta { get; set; }
+        }
+
+        public class postCreateParameters
+        {
+            public string text { get; set; }
+            public string reply_to { get; set; }
+            public int machine_only { get; set; }
+            public Entities entities { get; set; }
+            public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
         }
     }
 
