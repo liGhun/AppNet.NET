@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AppNetDotNet.Model.Annotations
 {
-    public class BlogUrl
+    public class Blog
     {
         public string url { get; set; }
     }

@@ -70,7 +70,7 @@ namespace AppNetDotNet.Model
                     }
                 case "net.app.core.directory.blog":
                     {
-                        return JsonConvert.DeserializeObject<Annotations.BlogUrl>(value.ToString());
+                        return JsonConvert.DeserializeObject<Annotations.Blog>(value.ToString());
                     }
                 case "net.app.core.directory.facebook":
                     {
@@ -87,6 +87,30 @@ namespace AppNetDotNet.Model
                 case "net.patter-app.settings":
                     {
                         return JsonConvert.DeserializeObject<Annotations.Patter>(value.ToString());
+                    }
+                case "net.questionapp.poll":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.Poll>(value.ToString());
+                    }
+                case "net.app.core.fallback_url":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.FallbackURL>(value.ToString());
+                    }
+                case "com.pilgrimagesoftware.yawp.client":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.YawpClientInfo>(value.ToString());
+                    }
+                case "com.pilgrimagesoftware.yawp.topic":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.YawpTopic>(value.ToString());
+                    }
+                case "net.app.core.channel.invite":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.ChannelInvite>(value.ToString());
+                    }
+                case "org.xmpp.presence":
+                    {
+                        return JsonConvert.DeserializeObject<Annotations.Presence>(value.ToString());
                     }
             }
             return null;
