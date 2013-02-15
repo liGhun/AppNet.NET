@@ -496,6 +496,51 @@ namespace AppNetDotNet.ApiCalls
                 return new Tuple<Post, ApiCallResponse>(post, apiCallResponse);
             }
 
+            /// <summary>
+            /// Report a post as spam. This will mute the author of the post and send a report to App.net.
+            /// </summary>
+            /// <param name="access_token">the user access token</param>
+            /// <param name="id">the id of the post to be reported</param>
+            /// <returns></returns>
+            public static Tuple<Post, ApiCallResponse> report(string access_token, string id)
+            {
+                ApiCallResponse apiCallResponse = new ApiCallResponse();
+                Post post = new Post();
+                try
+                {
+                    if (string.IsNullOrEmpty(access_token))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter access_token";
+                        return new Tuple<Post, ApiCallResponse>(post, apiCallResponse);
+                    }
+                    if (string.IsNullOrEmpty(id))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter id";
+                        return new Tuple<Post, ApiCallResponse>(post, apiCallResponse);
+                    }
+                    string requestUrl = Common.baseUrl + string.Format("/stream/0/posts/{0}/report",id);
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    headers.Add("Authorization", "Bearer " + access_token);
+                    Helper.Response response = Helper.SendPostRequest(
+                        requestUrl, 
+                        new Dictionary<string,string>(),
+                        headers);
+                    if (apiCallResponse.success)
+                    {
+                        post = JsonConvert.DeserializeObject<Post>(response.Content);
+                    }
+                }
+                catch (Exception exp)
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = exp.Message;
+                    apiCallResponse.errorDescription = exp.StackTrace;
+                }
+                return new Tuple<Post, ApiCallResponse>(post, apiCallResponse);
+            }
+
             public static Tuple<List<Post>,ApiCallResponse> getStaredByUserId(string access_token, string usernameOrId, Parameters parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
