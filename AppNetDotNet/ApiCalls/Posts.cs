@@ -52,6 +52,43 @@ namespace AppNetDotNet.ApiCalls
                 return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
             }
 
+            public static Tuple <List<Post>,ApiCallResponse> getUnifiedStream(string access_token, ParametersMyStream parameter = null)
+            {
+                ApiCallResponse apiCallResponse = new ApiCallResponse();
+                StreamResponse streamResponse = new StreamResponse();
+                try
+                {
+                    if (string.IsNullOrEmpty(access_token))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter access_token";
+                        return new Tuple<List<Post>, ApiCallResponse>(new List<Post>(), apiCallResponse);
+                    }
+                    string requestUrl = Common.baseUrl + "/stream/0/posts/stream/unified";
+                    if(parameter != null) {
+                        requestUrl = requestUrl + "?" + parameter.getQueryString();
+                    }
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    headers.Add("Authorization", "Bearer " + access_token);
+                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
+                    Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
+                    apiCallResponse = new ApiCallResponse(response);
+                    if (response.Success)
+                    {
+                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
+                        apiCallResponse.meta = streamResponse.meta;
+                    }
+                }
+                catch (Exception exp)
+                {
+                    apiCallResponse = new ApiCallResponse();
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = exp.Message;
+                    apiCallResponse.errorDescription = exp.StackTrace;
+                } 
+                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
+            }
+
             public static Tuple <List<Post>,ApiCallResponse> getGlobalStream(string access_token, Parameters parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
