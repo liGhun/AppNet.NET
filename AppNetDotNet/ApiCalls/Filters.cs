@@ -25,11 +25,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    filters = JsonConvert.DeserializeObject<List<Filter>>(response.Content);
-                }
+
+                return Helper.getData<List<Filter>>(response);
             }
             catch (Exception exp)
             {
@@ -63,10 +60,8 @@ namespace AppNetDotNet.ApiCalls
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
                 apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    filter = JsonConvert.DeserializeObject<Filter>(response.Content);
-                }
+
+                return Helper.getData<Filter>(response);
             }
             catch (Exception exp)
             {
@@ -99,11 +94,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    filter = JsonConvert.DeserializeObject<Filter>(response.Content);
-                }
+
+                return Helper.getData<Filter>(response);
             }
             catch (Exception exp)
             {
@@ -140,11 +132,8 @@ namespace AppNetDotNet.ApiCalls
                     createdFilter = JsonConvert.SerializeObject(filter)
                 },
                     headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    createdFilter = JsonConvert.DeserializeObject<Filter>(response.Content);
-                }
+
+                return Helper.getData<Filter>(response);
             }
             catch (Exception exp)
             {

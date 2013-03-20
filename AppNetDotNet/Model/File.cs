@@ -21,7 +21,21 @@ namespace AppNetDotNet.Model
         public int total_size { get; set; }
         public string type { get; set; }
         public string url { get; set; }
-        public DateTime url_expires { get; set; }
+        public DateTime url_expires
+        {
+            get
+            {
+                return _url_expires;
+            }
+            set
+            {
+                _url_expires = value.ToLocalTime();
+            }
+        }
+        /// <summary>
+        /// User supplied text of the post.
+        /// </summary>
+        private DateTime _url_expires { get; set; }
         public User user { get; set; }
 
         public override string ToString()
@@ -50,7 +64,21 @@ namespace AppNetDotNet.Model
             public string sha1 { get; set; }
             public int size { get; set; }
             public string url { get; set; }
-            public DateTime url_expires { get; set; }
+            public DateTime url_expires
+            {
+                get
+                {
+                    return _url_expires;
+                }
+                set
+                {
+                    _url_expires = value.ToLocalTime();
+                }
+            }
+            /// <summary>
+            /// User supplied text of the post.
+            /// </summary>
+            private DateTime _url_expires { get; set; }
         }
     }
 }

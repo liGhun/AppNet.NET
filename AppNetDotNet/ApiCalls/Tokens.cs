@@ -25,21 +25,11 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    JsonSerializerSettings settings = new JsonSerializerSettings();
-                    settings.Error += delegate(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
-                    {
-                        throw args.ErrorContext.Error;
-                    };
-                    token = JsonConvert.DeserializeObject<Token>(response.Content,settings);
-                    if (token == null)
-                    {
-                        apiCallResponse.success = false;
-                        apiCallResponse.errorMessage = "No user / token available";
-                    }
-                }
+
+                Tuple<Token, ApiCallResponse> returnValue = Helper.getData<Token>(response);
+
+                return returnValue;
+                
             }
             catch (Exception exp)
             {

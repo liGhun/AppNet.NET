@@ -10,7 +10,21 @@ namespace AppNetDotNet.Model
         public string id { get; set; }
         public string channel_id { get; set; }
         public User user { get; set; }
-        public DateTime created_at { get; set; }
+        public DateTime created_at
+        {
+            get
+            {
+                return _created_at;
+            }
+            set
+            {
+                _created_at = value.ToLocalTime();
+            }
+        }
+        /// <summary>
+        /// User supplied text of the post.
+        /// </summary>
+        private DateTime _created_at { get; set; }
         public string text { get; set; }
         public string html { get; set; }
         public Application source { get; set; }

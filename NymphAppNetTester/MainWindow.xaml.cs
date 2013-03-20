@@ -52,6 +52,7 @@ namespace NymphAppNetTester
                 if (e.success)
                 {
                     MessageBox.Show(e.accessToken, "Access token");
+                    Tuple<Token,ApiCallResponse> token = Tokens.get(e.accessToken);
                     this.textboxAccessToken.Text = e.accessToken;
                 }
                 else

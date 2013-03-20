@@ -18,7 +18,6 @@ namespace AppNetDotNet.ApiCalls
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Channel channel = new Channel();
-            singleChannelResponse responseObject = new singleChannelResponse();
             try
             {
                 if (string.IsNullOrEmpty(access_token))
@@ -50,12 +49,8 @@ namespace AppNetDotNet.ApiCalls
                         true,
                         contentType: "application/json");
 
-                apiCallResponse = new ApiCallResponse(response);
+                return Helper.getData<Channel>(response);
 
-                if (apiCallResponse.success)
-                {
-                    responseObject = JsonConvert.DeserializeObject<singleChannelResponse>(response.Content);
-                }
             }
             catch (Exception exp)
             {
@@ -63,14 +58,13 @@ namespace AppNetDotNet.ApiCalls
                 apiCallResponse.errorMessage = exp.Message;
                 apiCallResponse.errorDescription = exp.StackTrace;
             }
-            return new Tuple<Channel, ApiCallResponse>(responseObject.data, apiCallResponse);
+            return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
         }
 
         public static Tuple<Channel, ApiCallResponse> get(string access_token, string id)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Channel channel = new Channel();
-            singleChannelResponse responseObject = new singleChannelResponse();
             try
             {
                 if (string.IsNullOrEmpty(access_token))
@@ -95,12 +89,7 @@ namespace AppNetDotNet.ApiCalls
                         requestUrl,
                         headers);
 
-                apiCallResponse = new ApiCallResponse(response);
-
-                if (apiCallResponse.success)
-                {
-                    responseObject = JsonConvert.DeserializeObject<singleChannelResponse>(response.Content);
-                }
+                return Helper.getData<Channel>(response);
             }
             catch (Exception exp)
             {
@@ -108,14 +97,13 @@ namespace AppNetDotNet.ApiCalls
                 apiCallResponse.errorMessage = exp.Message;
                 apiCallResponse.errorDescription = exp.StackTrace;
             }
-            return new Tuple<Channel, ApiCallResponse>(responseObject.data, apiCallResponse);
+            return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
         }
 
         public static Tuple<Channel, ApiCallResponse> update(string access_token, string id, List<Annotation> annotations, ACL readers = null, ACL writers = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Channel channel = new Channel();
-            singleChannelResponse responseObject = new singleChannelResponse();
             try
             {
                 if (string.IsNullOrEmpty(access_token))
@@ -152,12 +140,8 @@ namespace AppNetDotNet.ApiCalls
                         true,
                         contentType: "application/json");
 
-                apiCallResponse = new ApiCallResponse(response);
+                return Helper.getData<Channel>(response);
 
-                if (apiCallResponse.success)
-                {
-                    responseObject = JsonConvert.DeserializeObject<singleChannelResponse>(response.Content);
-                }
             }
             catch (Exception exp)
             {
@@ -165,7 +149,7 @@ namespace AppNetDotNet.ApiCalls
                 apiCallResponse.errorMessage = exp.Message;
                 apiCallResponse.errorDescription = exp.StackTrace;
             }
-            return new Tuple<Channel, ApiCallResponse>(responseObject.data, apiCallResponse);
+            return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
         }
 
 
@@ -176,7 +160,6 @@ namespace AppNetDotNet.ApiCalls
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<Channel> channels = new List<Channel>();
-                multipleChannelsResponse responseObject = new multipleChannelsResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -199,12 +182,7 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
-
-                    if (apiCallResponse.success)
-                    {
-                        responseObject = JsonConvert.DeserializeObject<multipleChannelsResponse>(response.Content);
-                    }
+                    return Helper.getData<List<Channel>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -212,14 +190,13 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Channel>, ApiCallResponse>(responseObject.data, apiCallResponse);
+                return new Tuple<List<Channel>, ApiCallResponse>(channels, apiCallResponse);
             }
 
             public static Tuple<Channel, ApiCallResponse> subscribe(string access_token, string id)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 Channel channel = new Channel();
-                singleChannelResponse responseObject = new singleChannelResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -248,12 +225,7 @@ namespace AppNetDotNet.ApiCalls
                             },
                             additionalHeaders: headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
-
-                    if (apiCallResponse.success)
-                    {
-                        responseObject = JsonConvert.DeserializeObject<singleChannelResponse>(response.Content);
-                    }
+                    return Helper.getData<Channel>(response);
                 }
                 catch (Exception exp)
                 {
@@ -261,14 +233,13 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<Channel, ApiCallResponse>(responseObject.data, apiCallResponse);
+                return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
             }
 
             public static Tuple<Channel, ApiCallResponse> unsubscribe(string access_token, string id)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 Channel channel = new Channel();
-                singleChannelResponse responseObject = new singleChannelResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -297,12 +268,7 @@ namespace AppNetDotNet.ApiCalls
                                 channel_id = id
                             });
 
-                    apiCallResponse = new ApiCallResponse(response);
-
-                    if (apiCallResponse.success)
-                    {
-                        responseObject = JsonConvert.DeserializeObject<singleChannelResponse>(response.Content);
-                    }
+                    return Helper.getData<Channel>(response);
                 }
                 catch (Exception exp)
                 {
@@ -310,14 +276,13 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<Channel, ApiCallResponse>(responseObject.data, apiCallResponse);
+                return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
             }
 
             public static Tuple<List<User>, ApiCallResponse> getSubscribers(string access_token, string id)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<User> users = new List<User>();
-                AppNetDotNet.ApiCalls.Users.multipleUsersResponse responseObject = new Users.multipleUsersResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -342,12 +307,8 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
+                    return Helper.getData<List<User>>(response);
 
-                    if (apiCallResponse.success)
-                    {
-                        responseObject = JsonConvert.DeserializeObject<AppNetDotNet.ApiCalls.Users.multipleUsersResponse>(response.Content);
-                    }
                 }
                 catch (Exception exp)
                 {
@@ -355,14 +316,13 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<User>, ApiCallResponse>(responseObject.data, apiCallResponse);
+                return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
             }
 
             public static Tuple<List<string>, ApiCallResponse> getSubscribersIds(string access_token, string id)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<string> users = new List<string>();
-                multipleIdsResponse responseObject = new multipleIdsResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -387,12 +347,8 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
+                    return Helper.getData<List<string>>(response);
 
-                    if (apiCallResponse.success)
-                    {
-                        responseObject = JsonConvert.DeserializeObject<multipleIdsResponse>(response.Content);
-                    }
                 }
                 catch (Exception exp)
                 {
@@ -400,28 +356,11 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<string>, ApiCallResponse>(responseObject.data, apiCallResponse);
+                return new Tuple<List<string>, ApiCallResponse>(users, apiCallResponse);
             }
         }
 
-        public class singleChannelResponse
-        {
-            public Channel data { get; set; }
-            public Meta meta { get; set; }
-        }
-
-        public class multipleChannelsResponse
-        {
-            public List<Channel> data { get; set; }
-            public Meta meta { get; set; }
-        }
-
-        public class multipleIdsResponse
-        {
-            public List<string> data { get; set; }
-            public Meta meta { get; set; }
-        }
-
+        
         public class channelParameters
         {
             /// <summary>

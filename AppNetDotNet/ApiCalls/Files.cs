@@ -29,11 +29,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    files = JsonConvert.DeserializeObject<List<File>>(response.Content);
-                }
+
+                return Helper.getData<List<File>>(response);
             }
             catch (Exception exp)
             {
@@ -68,11 +65,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    files = JsonConvert.DeserializeObject<List<File>>(response.Content);
-                }
+
+                return Helper.getData<List<File>>(response);
             }
             catch (Exception exp)
             {
@@ -106,11 +100,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    file = JsonConvert.DeserializeObject<File>(response.Content);
-                }
+
+                return Helper.getData<File>(response);
             }
             catch (Exception exp)
             {
@@ -121,7 +112,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
         }
 
-        public static Tuple<File, ApiCallResponse> setContent(string access_token, string file_id, string local_file_path, string file_type = null, string mimeType = null, FileQueryParameters parameter = null)
+        public static ApiCallResponse setContent(string access_token, string file_id, string local_file_path, string file_type = null, string mimeType = null, FileQueryParameters parameter = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             File file = new File();
@@ -131,19 +122,19 @@ namespace AppNetDotNet.ApiCalls
                 {
                     apiCallResponse.success = false;
                     apiCallResponse.errorMessage = "Missing parameter access_token";
-                    return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
+                    return apiCallResponse;
                 }
                 if (string.IsNullOrEmpty(local_file_path))
                 {
                     apiCallResponse.success = false;
                     apiCallResponse.errorMessage = "Missing parameter local_file_path";
-                    return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
+                    return apiCallResponse;
                 }
                 if (string.IsNullOrEmpty(file_id))
                 {
                     apiCallResponse.success = false;
                     apiCallResponse.errorMessage = "Missing parameter file_id";
-                    return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
+                    return apiCallResponse;
                 }
 
                 string requestUrl = Common.baseUrl + "/stream/0/files/" + file_id + "/content";
@@ -175,12 +166,9 @@ namespace AppNetDotNet.ApiCalls
                                 true,
                                 contentType: mimeType 
                                 );
-                        apiCallResponse = new ApiCallResponse(response);
 
-                        if (apiCallResponse.success)
-                        {
-                            file = JsonConvert.DeserializeObject<File>(response.Content);
-                        }
+                        apiCallResponse = new ApiCallResponse(response);
+                        return apiCallResponse;
                     }
             
             }
@@ -203,7 +191,7 @@ namespace AppNetDotNet.ApiCalls
                 apiCallResponse.errorMessage = exp.Message;
                 apiCallResponse.errorDescription = exp.StackTrace;
             }
-            return new Tuple<File, ApiCallResponse>(file, apiCallResponse);
+            return apiCallResponse;
         }
 
         public static Tuple<File, ApiCallResponse> create(string access_token, string local_file_path = null, string name = null, string type = null, List<Annotation> annotations = null, string kind = null, FileQueryParameters parameter = null)
@@ -258,15 +246,14 @@ namespace AppNetDotNet.ApiCalls
                         true,
                         contentType: "application/json");
 
-                apiCallResponse = new ApiCallResponse(response);
+                Tuple<File, ApiCallResponse> returnValue = Helper.getData<File>(response);
 
-                if (apiCallResponse.success)
+                if (returnValue.Item2.success)
                 {
-                    file = JsonConvert.DeserializeObject<File>(response.Content);
                     if (!string.IsNullOrEmpty(local_file_path))
                     {
-                        setContent(access_token, file.id, local_file_path);
-                        
+                        setContent(access_token, returnValue.Item1.id, local_file_path);
+                        return returnValue;
                     }
                 }
 
@@ -340,12 +327,7 @@ namespace AppNetDotNet.ApiCalls
                         true,
                         contentType: "application/json");
 
-                apiCallResponse = new ApiCallResponse(response);
-
-                if (apiCallResponse.success)
-                {
-                    file = JsonConvert.DeserializeObject<File>(response.Content);
-                }
+                return Helper.getData<File>(response);
 
             }
             catch (WebException e)
@@ -398,13 +380,7 @@ namespace AppNetDotNet.ApiCalls
                         headers
                         );
 
-                apiCallResponse = new ApiCallResponse(response);
-
-                if (apiCallResponse.success)
-                {
-                    file = JsonConvert.DeserializeObject<File>(response.Content);
-                }
-
+                return Helper.getData<File>(response);
             }
             catch (WebException e)
             {

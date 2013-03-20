@@ -28,10 +28,21 @@ namespace AppNetDotNet.Model
         /// <summary>
         /// The time at which the post was create in ISO 8601 format.
         /// </summary>
-        public DateTime created_at { get; set; }
+        public DateTime created_at
+        {
+            get
+            {
+                return _created_at;
+            }
+            set
+            {
+                _created_at = value.ToLocalTime();
+            }
+        }
         /// <summary>
         /// User supplied text of the post.
         /// </summary>
+        private DateTime _created_at { get; set; }
         public string text { get; set; }
         /// <summary>
         /// Server-generated annotated HTML rendering of post text.

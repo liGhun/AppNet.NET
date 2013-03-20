@@ -42,6 +42,8 @@ using System.Net;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using AppNetDotNet.ApiCalls;
 
 namespace AppNetDotNet
 {
@@ -369,7 +371,7 @@ namespace AppNetDotNet
                 request.AllowAutoRedirect = true;
                 request.Accept = "*/*";
 
-                    request.UserAgent = "AppNet.Net (http://www.namyphicusapp.com/windows)";
+                    request.UserAgent = "AppNet.Net (http://www.namyphicusapp.com/windows/chapper)";
 
                 Response returnValue = GetResponse(request);
                 return returnValue;
@@ -508,6 +510,31 @@ namespace AppNetDotNet
                 nullResponse.Error = e.Message;
                 return nullResponse;
             }
+        }
+
+        public static Tuple<T, ApiCallResponse> getData<T>(Response rawResponse)
+        {
+            ApiCallResponse apiCallResponse = new ApiCallResponse(rawResponse);
+
+            T parsedData = default(T);
+
+            if (apiCallResponse.success)
+            {
+                Newtonsoft.Json.Linq.JObject responseJson = Newtonsoft.Json.Linq.JObject.Parse(rawResponse.Content);
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.Error += delegate(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                {
+                    throw args.ErrorContext.Error;
+                };
+                if (responseJson != null)
+                {
+                    parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
+                    apiCallResponse.meta = JsonConvert.DeserializeObject<Model.Meta>(responseJson["meta"].ToString(), settings);
+                }
+            }
+
+
+            return new Tuple<T, ApiCallResponse>(parsedData, apiCallResponse); ;
         }
 
 
@@ -690,7 +717,7 @@ namespace AppNetDotNet
 
         public static string getMimeFromFile(string filename)
         {
-            if (!File.Exists(filename))
+            if (!System.IO.File.Exists(filename))
                 throw new FileNotFoundException(filename + " not found");
 
             byte[] buffer = new byte[256];

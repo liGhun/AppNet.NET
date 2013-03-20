@@ -39,11 +39,7 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        place = JsonConvert.DeserializeObject<Place>(response.Content);
-                    }
+                    return Helper.getData<Place>(response);
                 }
                 catch (Exception exp)
                 {
@@ -114,11 +110,7 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        places = JsonConvert.DeserializeObject<List<Place>>(response.Content);
-                    }
+                    return Helper.getData<List<Place>>(response);
                 }
                 catch (Exception exp)
                 {

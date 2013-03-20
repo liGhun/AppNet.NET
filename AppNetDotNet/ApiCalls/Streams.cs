@@ -25,11 +25,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    stream = JsonConvert.DeserializeObject<Stream>(response.Content);
-                }
+
+                return Helper.getData<Stream>(response);
             }
             catch (Exception exp)
             {

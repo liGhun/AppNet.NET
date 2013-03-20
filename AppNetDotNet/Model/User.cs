@@ -26,7 +26,21 @@ namespace AppNetDotNet.Model
         public Image avatar_image { get; set; }
         public string type { get; set; }
         public Image cover_image { get; set; }
-        public DateTime created_at { get; set; }
+        public DateTime created_at
+        {
+            get
+            {
+                return _created_at;
+            }
+            set
+            {
+                _created_at = value.ToLocalTime();
+            }
+        }
+        /// <summary>
+        /// User supplied text of the post.
+        /// </summary>
+        private DateTime _created_at { get; set; }
         public Counts counts { get; set; }
 
         public bool follows_you { get; set; }

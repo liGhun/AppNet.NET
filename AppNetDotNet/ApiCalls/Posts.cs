@@ -18,7 +18,6 @@ namespace AppNetDotNet.ApiCalls
             public static Tuple <List<Post>,ApiCallResponse> getUserStream(string access_token, ParametersMyStream parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
-                StreamResponse streamResponse = new StreamResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -33,14 +32,9 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
-                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (response.Success)
-                    {
-                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
-                        apiCallResponse.meta = streamResponse.meta;
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -49,13 +43,12 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 } 
-                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(new List<Post>(), apiCallResponse);
             }
 
             public static Tuple <List<Post>,ApiCallResponse> getUnifiedStream(string access_token, ParametersMyStream parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
-                StreamResponse streamResponse = new StreamResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -70,14 +63,9 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
-                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (response.Success)
-                    {
-                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
-                        apiCallResponse.meta = streamResponse.meta;
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -86,14 +74,13 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 } 
-                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(new List<Post>(), apiCallResponse);
             }
 
             public static Tuple <List<Post>,ApiCallResponse> getGlobalStream(string access_token, Parameters parameter = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<Post> posts = new List<Post>();
-                StreamResponse streamResponse = new StreamResponse();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -108,14 +95,10 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
-                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
+                    
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
-                        apiCallResponse.meta = streamResponse.meta;
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -123,7 +106,7 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
             }
         }
 
@@ -189,12 +172,8 @@ namespace AppNetDotNet.ApiCalls
                             headers,
                             true,
                             contentType: "application/json");
-                    
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                        return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -227,11 +206,8 @@ namespace AppNetDotNet.ApiCalls
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -267,11 +243,8 @@ namespace AppNetDotNet.ApiCalls
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -279,7 +252,7 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse); ;
+                return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
             }
 
             public static Tuple<List<Post>, ApiCallResponse> getRepliesById(string access_token, string id, Parameters parameter = null)
@@ -307,11 +280,8 @@ namespace AppNetDotNet.ApiCalls
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -353,12 +323,7 @@ namespace AppNetDotNet.ApiCalls
                             },
                             additionalHeaders: headers);
 
-
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -393,11 +358,8 @@ namespace AppNetDotNet.ApiCalls
                     Helper.Response response = Helper.SendDeleteRequest(
                             requestUrl,
                             additionalHeaders: headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -440,11 +402,8 @@ namespace AppNetDotNet.ApiCalls
                                 post_id = id,
                             },
                             additionalHeaders: headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -480,11 +439,7 @@ namespace AppNetDotNet.ApiCalls
                             requestUrl,
                             additionalHeaders: headers);
 
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -519,10 +474,8 @@ namespace AppNetDotNet.ApiCalls
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
                     Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -564,10 +517,8 @@ namespace AppNetDotNet.ApiCalls
                         requestUrl, 
                         new Dictionary<string,string>(),
                         headers);
-                    if (apiCallResponse.success)
-                    {
-                        post = JsonConvert.DeserializeObject<Post>(response.Content);
-                    }
+
+                    return Helper.getData<Post>(response);
                 }
                 catch (Exception exp)
                 {
@@ -603,11 +554,8 @@ namespace AppNetDotNet.ApiCalls
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        posts = JsonConvert.DeserializeObject<List<Post>>(response.Content);
-                    }
+
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -623,8 +571,6 @@ namespace AppNetDotNet.ApiCalls
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 List<Post> emptyList = new List<Post>();
-                StreamResponse streamResponse = new StreamResponse();
-                streamResponse.data = new List<Post>();
                 try
                 {
                     if (string.IsNullOrEmpty(access_token))
@@ -645,14 +591,8 @@ namespace AppNetDotNet.ApiCalls
                     }
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
-                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
                     Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        streamResponse = JsonConvert.DeserializeObject<StreamResponse>(response.Content);
-                        apiCallResponse.meta = streamResponse.meta;
-                    }
+                    return Helper.getData<List<Post>>(response);
                 }
                 catch (Exception exp)
                 {
@@ -660,7 +600,7 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = exp.Message;
                     apiCallResponse.errorDescription = exp.StackTrace;
                 }
-                return new Tuple<List<Post>, ApiCallResponse>(streamResponse.data, apiCallResponse);
+                return new Tuple<List<Post>, ApiCallResponse>(emptyList, apiCallResponse);
             }
 
 
@@ -713,11 +653,8 @@ namespace AppNetDotNet.ApiCalls
                             headers,
                             true,
                             contentType:"application/json");
-                    apiCallResponse = new ApiCallResponse(response);
-                    if (apiCallResponse.success)
-                    {
-                        receivedStreamMarker = JsonConvert.DeserializeObject<StreamMarker>(response.Content);
-                    }
+
+                    return Helper.getData<StreamMarker>(response);
                 }
                 catch (Exception exp)
                 {
@@ -729,13 +666,6 @@ namespace AppNetDotNet.ApiCalls
             }
         }
         #endregion
-
-
-        public class StreamResponse
-        {
-            public List<Post> data { get; set; }
-            public Meta meta { get; set; }
-        }
 
         public class postCreateParameters
         {

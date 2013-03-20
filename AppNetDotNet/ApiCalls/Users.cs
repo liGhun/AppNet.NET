@@ -32,11 +32,7 @@ namespace AppNetDotNet.ApiCalls
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
 
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    user = JsonConvert.DeserializeObject<User>(response.Content);
-                }
+                return Helper.getData<User>(response);
             }
             catch (Exception exp)
             {
@@ -71,11 +67,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendPostRequest(requestUrl, new object(), headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    user = JsonConvert.DeserializeObject<User>(response.Content);
-                }
+
+                return Helper.getData<User>(response);
             }
             catch (Exception exp)
             {
@@ -108,11 +101,7 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    user = JsonConvert.DeserializeObject<User>(response.Content);
-                }
+                return Helper.getData<User>(response);
             }
             catch (Exception exp)
             {
@@ -145,11 +134,7 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-                }
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -182,11 +167,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-                }
+
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -223,11 +205,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendPostRequest(requestUrl, new object(), headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    user = JsonConvert.DeserializeObject<User>(response.Content);
-                }
+
+                return Helper.getData<User>(response);
             }
             catch (Exception exp)
             {
@@ -260,11 +239,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    user = JsonConvert.DeserializeObject<User>(response.Content);
-                }
+
+                return Helper.getData<User>(response);
             }
             catch (Exception exp)
             {
@@ -291,11 +267,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-                }
+
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -332,11 +305,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-                }
+
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -373,11 +343,8 @@ namespace AppNetDotNet.ApiCalls
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-                apiCallResponse = new ApiCallResponse(response);
-                if (apiCallResponse.success)
-                {
-                    users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-                }
+
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -410,15 +377,12 @@ namespace AppNetDotNet.ApiCalls
                     apiCallResponse.errorMessage = "Missing parameter postId";
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
-            string requestUrl = Common.baseUrl + "/stream/0/posts/" + postId + "/stars";
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("Authorization", "Bearer " + access_token);
-            Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
-            apiCallResponse = new ApiCallResponse(response);
-            if (apiCallResponse.success)
-            {
-                users = JsonConvert.DeserializeObject<List<User>>(response.Content);
-            }
+                string requestUrl = Common.baseUrl + "/stream/0/posts/" + postId + "/stars";
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers.Add("Authorization", "Bearer " + access_token);
+                Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
+
+                return Helper.getData<List<User>>(response);
             }
             catch (Exception exp)
             {
@@ -430,18 +394,6 @@ namespace AppNetDotNet.ApiCalls
         }
 
         #endregion
-
-        public class singleUserResponse
-        {
-            public User data { get; set; }
-            public Meta meta { get; set; }
-        }
-
-        public class multipleUsersResponse
-        {
-            public List<User> data { get; set; }
-            public Meta meta { get; set; }
-        }
 
     }
 }
