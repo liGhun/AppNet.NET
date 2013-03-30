@@ -528,8 +528,12 @@ namespace AppNetDotNet
                 };
                 if (responseJson != null)
                 {
-                    parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
-                    apiCallResponse.meta = JsonConvert.DeserializeObject<Model.Meta>(responseJson["meta"].ToString(), settings);
+                    try
+                    {
+                        parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
+                        apiCallResponse.meta = JsonConvert.DeserializeObject<Model.Meta>(responseJson["meta"].ToString(), settings);
+                    }
+                    catch { }
                 }
             }
 

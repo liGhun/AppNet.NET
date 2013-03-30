@@ -1,7 +1,9 @@
 AppNet.NET
 ==========
 
-AppNet.NET is a library which implements all endpoints and object from the App.Net API as documented at [http://developers.app.net/](http://developers.app.net/)
+AppNet.NET is a library which implements all endpoints and object from the App.Net API as documented at [http://developers.app.net/](http://developers.app.net/).
+
+There is a nuget Package available at [https://www.nuget.org/packages/AppNet.NET](https://www.nuget.org/packages/AppNet.NET)
 
 ## Model ##
 
@@ -13,7 +15,7 @@ They are all in the `AppNetDotNet.Model` namespace (e. g. a post is of type `App
 All API calls as documented by App.Net are implemented as static functions in the `AppNetDotNet.ApiCalls` namespace.
 For example to get the My Stream contents you call
 
-	`AppNetDotNet.ApiCalls.getUserStream("AAAAccesstokenxxxxxxx")`
+	AppNetDotNet.ApiCalls.getUserStream("AAAAccesstokenxxxxxxx")
 
 ## Return values
 
@@ -34,6 +36,10 @@ Example on how to get the My Stream of the current user:
 
 OAuth is implemented within the `AppNetDotNet.Model.AppNetAccount` class. This includes the full workflow including the used browser window asking the user for permission for the desktop flow.
 The server side flow is not completed by now (I don't use .NET on webservers myself - so if you want to contribute...)
+
+Authorization is done by using a WebBrowser control. The downside is that this control by default only renders HTML in quirks mode which will bring a 404 error on authorization success (as the WebBrowser control is limited) and because of this you won't get the needed access token.
+
+To enable the full browser mode you need to [enter a parameter in the registry as described on this side](http://www.west-wind.com/weblog/posts/2011/May/21/Web-Browser-Control-Specifying-the-IE-Version). Remember to enter both Spinnaker.exe and Spinnaker.vshost.exe in your registry to have the debug version work also. Also remember that if you deliever a setup this setup needs to add those registry keys for the user automatically.
 
 # Test tool #
 
