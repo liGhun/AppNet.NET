@@ -52,6 +52,7 @@
         <Button x:Name="buttonGetMessagesInChannel" Content="Get messages in channel" HorizontalAlignment="Left" Margin="557,382,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetMessagesInChannel_Click" />
         <Button x:Name="button_openFilesWindow" Content="Open files test window" HorizontalAlignment="Left" Margin="557,440,0,0" VerticalAlignment="Top" Width="117" Click="button_openFilesWindow_Click"/>
         <Button x:Name="button_openPlacesWindow" Content="Open place window" HorizontalAlignment="Left" Margin="557,467,0,0" VerticalAlignment="Top" Width="117" Click="button_openPlacesWindow_Click" />
+        <Button x:Name="buttonGetInteractions" Content="Get interactions of me" HorizontalAlignment="Left" Margin="557,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetInteractions_Click_1"/>
 
     </Grid>
 </Window>

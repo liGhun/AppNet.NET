@@ -27,6 +27,9 @@ namespace NymphAppNetTester
         {
             InitializeComponent();
 
+            // we need to make sure that the authorization window is not running in quirks mode
+            Authorization.registerAppInRegistry(Authorization.registerBrowserEmulationValue.IE8Always);
+
             this.textboxAccessToken.Text = Properties.Settings.Default.AccessToken;
         }
 
@@ -255,6 +258,12 @@ namespace NymphAppNetTester
         {
             NymphAppNetTester.Places window = new Places(textboxAccessToken.Text);
             window.Show();
+        }
+
+        private void buttonGetInteractions_Click_1(object sender, RoutedEventArgs e)
+        {
+            Tuple<List<Interaction>, ApiCallResponse> response = Interactions.getUserInteractionsWithMe(textboxAccessToken.Text);
+            Console.WriteLine(response.Item2.success);
         }
     }
 }

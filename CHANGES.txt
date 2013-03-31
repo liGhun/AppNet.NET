@@ -1,0 +1,9 @@
+1.6.1
+Added Model.Authorization.registerAppInRegistry() which will create the needed registry entries for the non-quirks-mode-auth window
+Auhtorization now starts a logout in default before starting the auth flow in order to authorize multiple accounts in a row
+Added Model.interaction
+Added ApiCall.Interactions
+Interactions model automatically parses the objects field for users and/or posts and writes them to custom follower or posts attributes
+Fix: Private messages posting sent the DateTime with value 0:0:0 - not send anymore at all 
+
+<1.6 no Changelog, see commit history instead

@@ -9,12 +9,12 @@ namespace AppNetDotNet.ApiCalls
 {
     public class Messages
     {
-        public static Tuple<Message, ApiCallResponse> createPrivateMessage(string access_token, string text, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, bool machineOnly = false)
+        public static Tuple<Message, ApiCallResponse> createPrivateMessage(string access_token, string text, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0)
         {
             return create(access_token, text, "pm", receipientUsersnameOrIds,  reply_to, annotations, entities, machineOnly);
         }
 
-        public static Tuple<Message, ApiCallResponse> create(string access_token, string text, string channelId, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, bool machineOnly = false)
+        public static Tuple<Message, ApiCallResponse> create(string access_token, string text, string channelId, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Message message = new Message();
@@ -48,17 +48,18 @@ namespace AppNetDotNet.ApiCalls
                     requestUrl += "/stream/0/channels/" + channelId + "/messages";
                 }
 
-                message.text = text;
-                message.reply_to = reply_to;
-                message.annotations = annotations;
-                message.entities = entities;
-                message.machine_only = machineOnly;
-                message.destinations = receipientUsersnameOrIds;
+                messageCreateParameters messageContent = new messageCreateParameters();
+                messageContent.text = text;
+                messageContent.reply_to = reply_to;
+                //messageContent.annotations = annotations;
+                messageContent.entities = entities;
+                messageContent.machine_only = machineOnly;
+                messageContent.destinations = receipientUsersnameOrIds;
 
                 JsonSerializerSettings settings = new JsonSerializerSettings();
                 settings.NullValueHandling = NullValueHandling.Ignore;
 
-                string jsonString = JsonConvert.SerializeObject(message,Formatting.None, settings);
+                string jsonString = JsonConvert.SerializeObject(messageContent, Formatting.None, settings);
 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
@@ -83,49 +84,47 @@ namespace AppNetDotNet.ApiCalls
 
         public static Tuple<Message, ApiCallResponse> get(string access_token, string channelId, string messageId)
         {
+
+            ApiCallResponse apiCallResponse = new ApiCallResponse();
+            Message message = new Message();
+            try
             {
-                ApiCallResponse apiCallResponse = new ApiCallResponse();
-                Message message = new Message();
-                try
-                {
-                    if (string.IsNullOrEmpty(access_token))
-                    {
-                        apiCallResponse.success = false;
-                        apiCallResponse.errorMessage = "Missing parameter access_token";
-                        return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
-                    }
-                    if (string.IsNullOrEmpty(channelId))
-                    {
-                        apiCallResponse.success = false;
-                        apiCallResponse.errorMessage = "Missing channelId";
-                        return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
-                    }
-                    if (string.IsNullOrEmpty(messageId))
-                    {
-                        apiCallResponse.success = false;
-                        apiCallResponse.errorMessage = "Missing messageId";
-                        return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
-                    }
-
-                    string requestUrl = Common.baseUrl + "/stream/0/channels/" + channelId + "/messages/" + messageId;
-
-                    Dictionary<string, string> headers = new Dictionary<string, string>();
-                    headers.Add("Authorization", "Bearer " + access_token);
-                    headers.Add("X-ADN-Migration-Overrides", "response_envelope=1");
-                    Helper.Response response = Helper.SendGetRequest(
-                            requestUrl,
-                            headers);
-
-                    return Helper.getData<Message>(response);
-                }
-                catch (Exception exp)
+                if (string.IsNullOrEmpty(access_token))
                 {
                     apiCallResponse.success = false;
-                    apiCallResponse.errorMessage = exp.Message;
-                    apiCallResponse.errorDescription = exp.StackTrace;
+                    apiCallResponse.errorMessage = "Missing parameter access_token";
+                    return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
                 }
-                return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
+                if (string.IsNullOrEmpty(channelId))
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = "Missing channelId";
+                    return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
+                }
+                if (string.IsNullOrEmpty(messageId))
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = "Missing messageId";
+                    return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
+                }
+
+                string requestUrl = Common.baseUrl + "/stream/0/channels/" + channelId + "/messages/" + messageId;
+
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers.Add("Authorization", "Bearer " + access_token);
+                Helper.Response response = Helper.SendGetRequest(
+                        requestUrl,
+                        headers);
+
+                return Helper.getData<Message>(response);
             }
+            catch (Exception exp)
+            {
+                apiCallResponse.success = false;
+                apiCallResponse.errorMessage = exp.Message;
+                apiCallResponse.errorDescription = exp.StackTrace;
+            }
+            return new Tuple<Message, ApiCallResponse>(message, apiCallResponse);
         }
 
         public static Tuple<Message, ApiCallResponse> delete(string access_token, string channelId, string messageId)
@@ -283,8 +282,17 @@ namespace AppNetDotNet.ApiCalls
                 }
                 queryString = queryString.TrimEnd('&');
                 return queryString;
-            }
+         }   
         }
-        
+
+        public class messageCreateParameters
+        {
+            public string text { get; set; }
+            public string reply_to { get; set; }
+            public int machine_only { get; set; }
+            public Entities entities { get; set; }
+            public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
+            public List<string> destinations { get; set; }
+        }
     }
 }

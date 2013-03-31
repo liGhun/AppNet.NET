@@ -65,6 +65,7 @@
     <Compile Include="ApiCalls\Files.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
+    <Compile Include="ApiCalls\Interactions.cs" />
     <Compile Include="ApiCalls\Messages.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Places.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Image.cs" />
     <Compile Include="Model\Entities.cs" />
+    <Compile Include="Model\Interaction.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Meta.cs" />
     <Compile Include="Model\Place.cs" />
