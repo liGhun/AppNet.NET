@@ -1,4 +1,4 @@
-1.6.1
+1.6.2
 Added Model.Authorization.registerAppInRegistry() which will create the needed registry entries for the non-quirks-mode-auth window
 Auhtorization now starts a logout in default before starting the auth flow in order to authorize multiple accounts in a row
 Added Model.interaction
