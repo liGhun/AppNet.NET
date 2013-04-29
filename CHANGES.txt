@@ -1,3 +1,10 @@
+1.6.3
+Added much better error response handling (will parse now returned JSON if availbale)
+Added blocking endpoints for users 
+Added text processor
+Added Muting: get list of muted users by another user than me
+Fix: Addding entities on posting a post did not work
+
 1.6.2
 Added Model.Authorization.registerAppInRegistry() which will create the needed registry entries for the non-quirks-mode-auth window
 Auhtorization now starts a logout in default before starting the auth flow in order to authorize multiple accounts in a row

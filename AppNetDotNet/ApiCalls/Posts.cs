@@ -143,7 +143,7 @@ namespace AppNetDotNet.ApiCalls
                     postCreateContent.text = text;
                     postCreateContent.reply_to = reply_to;
                     postCreateContent.machine_only = machine_only;
-                    postCreateContent.entities = entities;
+                    postCreateContent.entities = new EntitiesWithoutAllProperty(entities);
                     //postCreateContent.annotations = annotations;
                     if (toBeEmbeddedFiles != null)
                     {
@@ -672,8 +672,13 @@ namespace AppNetDotNet.ApiCalls
             public string text { get; set; }
             public string reply_to { get; set; }
             public int machine_only { get; set; }
-            public Entities entities { get; set; }
+            public EntitiesWithoutAllProperty entities { get; set; }
             public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
+        }
+
+        public class postCreateEntity
+        {
+
         }
     }
 

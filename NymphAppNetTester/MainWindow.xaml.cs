@@ -240,6 +240,7 @@ namespace NymphAppNetTester
         private void buttonGetMessagesInChannel_Click(object sender, RoutedEventArgs e)
         {
             Tuple<List<Message>, ApiCallResponse> response = AppNetDotNet.ApiCalls.Messages.getMessagesInChannel(textboxAccessToken.Text, textboxChannelIds.Text);
+            Console.WriteLine(response.ToString());
         }
 
         private void button_openFilesWindow_Click(object sender, RoutedEventArgs e)
@@ -264,6 +265,11 @@ namespace NymphAppNetTester
         {
             Tuple<List<Interaction>, ApiCallResponse> response = Interactions.getUserInteractionsWithMe(textboxAccessToken.Text);
             Console.WriteLine(response.Item2.success);
+        }
+
+        private void buttonTextProcessor_Click_1(object sender, RoutedEventArgs e)
+        {
+            Tuple<Post, ApiCallResponse> response = TextProcessor.process(textboxAccessToken.Text, textboxMessageText.Text);
         }
     }
 }

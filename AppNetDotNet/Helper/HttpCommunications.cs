@@ -406,10 +406,10 @@ namespace AppNetDotNet
             catch (System.Exception e)
             {
                 Console.WriteLine(e.Message);
-                Response nullResponse = new Response();
-                nullResponse.Success = false;
-                nullResponse.Error = e.Message;
-                return nullResponse;
+                Response errorResponse = new Response();
+                errorResponse.Success = false;
+                errorResponse.Error = e.Message;
+                return errorResponse;
             }
         }
 
@@ -569,7 +569,48 @@ namespace AppNetDotNet
                 System.IO.Stream data = e.Response.GetResponseStream();
 
                 string text = new System.IO.StreamReader(data).ReadToEnd();
-                Console.WriteLine(text);
+
+                if (!string.IsNullOrEmpty(text))
+                {
+                    try
+                    {
+                        Newtonsoft.Json.Linq.JObject responseJson = Newtonsoft.Json.Linq.JObject.Parse(text);
+                        JsonSerializerSettings settings = new JsonSerializerSettings();
+                        settings.Error += delegate(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                        {
+                            throw args.ErrorContext.Error;
+                        };
+                        if (responseJson != null)
+                        {
+                            try
+                            {
+                                ErrorResponse meta = JsonConvert.DeserializeObject<ErrorResponse>(responseJson["meta"].ToString(), settings);
+                                if (meta != null)
+                                {
+                                    Response errorResonse = new Response();
+                                    errorResonse.Success = false;
+                                    errorResonse.Status = meta.code;
+                                    errorResonse.Error = meta.error_message;
+                                    return errorResonse;
+                                }
+                            }
+                            catch (Exception exp)
+                            {
+                                Response errorResonse = new Response();
+                                errorResonse.Success = false;
+                                errorResonse.Error = exp.Message;
+                                return errorResonse;
+                            }
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        Response errorResonse = new Response();
+                        errorResonse.Success = false;
+                        errorResonse.Error = exp.Message;
+                        return errorResonse;
+                    }
+                }
                     
             }
             catch (System.Exception e)
@@ -669,6 +710,14 @@ namespace AppNetDotNet
         }
 
         #endregion
+
+        public class ErrorResponse
+        {
+            public string code { get; set; }
+            public string error_message { get; set; }
+            public string error_slug { get; set; }
+            public string error_id { get; set; }
+        }
 
         public class Response
         {

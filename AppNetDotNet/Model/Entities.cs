@@ -13,6 +13,13 @@ namespace AppNetDotNet.Model
             int len { get; set; }
         }
 
+        public Entities()
+        {
+            mentions = new List<Mention>();
+            hashtags = new List<Hashtag>();
+            links = new List<Link>();
+        }
+
         public List<Mention> mentions { get; set; }
         public List<Hashtag> hashtags { get; set; }
         public List<Link> links { get; set; }
@@ -125,5 +132,49 @@ namespace AppNetDotNet.Model
                 return this.pos;
             }
         }
+    }
+
+    /// <summary>
+    /// Provides a list of entities without the nice allEntities property - used to send entities without not supported parameters
+    /// </summary>
+    public class EntitiesWithoutAllProperty
+    {
+        public List<Entities.Mention> mentions { get; set; }
+        public List<Entities.Hashtag> hashtags { get; set; }
+        public List<Entities.Link> links { get; set; }
+
+        public EntitiesWithoutAllProperty(Entities entities)
+        {
+            mentions = null;
+            hashtags = null;
+            links = null;
+            if (entities != null)
+            {
+                if (entities.mentions != null)
+                {
+                    if (entities.mentions.Count > 0)
+                    {
+                        mentions = entities.mentions;
+                    }
+                }
+
+                if (entities.hashtags != null)
+                {
+                    if (entities.hashtags.Count > 0)
+                    {
+                        hashtags = entities.hashtags;
+                    }
+                }
+
+                if (entities.links != null)
+                {
+                    if (entities.hashtags.Count > 0)
+                    {
+                        links = entities.links;
+                    }
+                }
+            }
+        }
+
     }
 }
