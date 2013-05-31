@@ -81,6 +81,7 @@
     <Compile Include="Model\Annotations\AnnotationReplacement_File.cs" />
     <Compile Include="Model\Annotations\Annotations.cs" />
     <Compile Include="Model\Annotations\Blog.cs" />
+    <Compile Include="Model\Annotations\Issue.cs" />
     <Compile Include="Model\Annotations\ChannelInvite.cs" />
     <Compile Include="Model\Annotations\Crosspost.cs" />
     <Compile Include="Model\Annotations\EmbeddedMedia.cs" />

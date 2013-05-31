@@ -10,7 +10,7 @@ namespace AppNetDotNet.Model.Annotations
         /// <summary>
         /// A formatted date string. 
         /// </summary>
-        public DateTime build_date
+        public string build_date
         {
             get
             {
@@ -18,13 +18,14 @@ namespace AppNetDotNet.Model.Annotations
             }
             set
             {
-                _build_date = value.ToLocalTime();
+                //_build_date = value.ToLocalTime();
+                _build_date = value;
             }
         }
         /// <summary>
         /// User supplied text of the post.
         /// </summary>
-        private DateTime _build_date { get; set; }
+        private string _build_date { get; set; }
         /// <summary>
         /// The application's internal build number
         /// </summary>

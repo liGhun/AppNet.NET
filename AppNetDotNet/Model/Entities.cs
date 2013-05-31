@@ -168,7 +168,7 @@ namespace AppNetDotNet.Model
 
                 if (entities.links != null)
                 {
-                    if (entities.hashtags.Count > 0)
+                    if (entities.links.Count > 0)
                     {
                         links = entities.links;
                     }

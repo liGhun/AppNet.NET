@@ -27,7 +27,7 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
                 }
 
-                string requestUrl = Common.baseUrl += "/stream/0/channels";
+                string requestUrl = Common.baseUrl + "/stream/0/channels";
 
                 channel.annotations = annotations;
                 channel.readers = readers;
@@ -80,7 +80,7 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
                 }
 
-                string requestUrl = Common.baseUrl += "/stream/0/channels/" + id;
+                string requestUrl = Common.baseUrl + "/stream/0/channels/" + id;
 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
@@ -119,7 +119,7 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
                 }
 
-                string requestUrl = Common.baseUrl += "/stream/0/channels/" + id;
+                string requestUrl = Common.baseUrl + "/stream/0/channels/" + id;
 
                 channel.annotations = annotations;
                 channel.readers = readers;
@@ -212,7 +212,7 @@ namespace AppNetDotNet.ApiCalls
                         return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
                     }
 
-                    string requestUrl = Common.baseUrl += "/stream/0/channels/" + id + "/subscribe";
+                    string requestUrl = Common.baseUrl + "/stream/0/channels/" + id + "/subscribe";
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -255,7 +255,7 @@ namespace AppNetDotNet.ApiCalls
                         return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
                     }
 
-                    string requestUrl = Common.baseUrl += "/stream/0/channels/" + id + "/subscribe";
+                    string requestUrl = Common.baseUrl + "/stream/0/channels/" + id + "/subscribe";
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -298,7 +298,7 @@ namespace AppNetDotNet.ApiCalls
                         return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                     }
 
-                    string requestUrl = Common.baseUrl += "/stream/0/channels/" + id + "/subscribers";
+                    string requestUrl = Common.baseUrl + "/stream/0/channels/" + id + "/subscribers";
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -338,7 +338,7 @@ namespace AppNetDotNet.ApiCalls
                         return new Tuple<List<string>, ApiCallResponse>(users, apiCallResponse);
                     }
 
-                    string requestUrl = Common.baseUrl += "/stream/0/channels/" + id + "/subscribers/ids";
+                    string requestUrl = Common.baseUrl + "/stream/0/channels/" + id + "/subscribers/ids";
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);

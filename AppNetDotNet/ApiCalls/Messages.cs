@@ -51,7 +51,7 @@ namespace AppNetDotNet.ApiCalls
                 messageCreateParameters messageContent = new messageCreateParameters();
                 messageContent.text = text;
                 messageContent.reply_to = reply_to;
-                //messageContent.annotations = annotations;
+                messageContent.annotations = annotations;
                 messageContent.entities = entities;
                 messageContent.machine_only = machineOnly;
                 messageContent.destinations = receipientUsersnameOrIds;
@@ -291,7 +291,8 @@ namespace AppNetDotNet.ApiCalls
             public string reply_to { get; set; }
             public int machine_only { get; set; }
             public Entities entities { get; set; }
-            public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
+            public List<Annotation> annotations { get; set; }
+            // public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
             public List<string> destinations { get; set; }
         }
     }

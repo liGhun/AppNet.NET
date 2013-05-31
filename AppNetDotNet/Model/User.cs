@@ -20,6 +20,7 @@ namespace AppNetDotNet.Model
         public string username { get; set; }
         public string name { get; set; }
         public Description description { get; set; }
+        public List<Annotation> annotations { get; set; }
 
         public string timezone { get; set; }
         public string locale { get; set; }
@@ -46,6 +47,9 @@ namespace AppNetDotNet.Model
         public bool follows_you { get; set; }
         public bool you_follow { get; set; }
         public bool you_muted { get; set; }
+        public bool you_blocked { get; set; }
+        public bool you_can_subscribe { get; set; }
+        public string verified_domain { get; set; }
 
         public class Counts
         {

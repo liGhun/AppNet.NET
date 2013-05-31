@@ -533,7 +533,11 @@ namespace AppNetDotNet
                         parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
                         apiCallResponse.meta = JsonConvert.DeserializeObject<Model.Meta>(responseJson["meta"].ToString(), settings);
                     }
-                    catch { }
+                    catch (Exception exp) {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = exp.Message;
+                        apiCallResponse.errorDescription = exp.StackTrace;
+                    }
                 }
             }
 

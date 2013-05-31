@@ -604,6 +604,44 @@ namespace AppNetDotNet.ApiCalls
             }
 
 
+        
+
+    public static Tuple<List<Post>, ApiCallResponse> getTaggedPosts(string hashtag, Parameters parameter = null)
+            {
+                ApiCallResponse apiCallResponse = new ApiCallResponse();
+                List<Post> emptyList = new List<Post>();
+                try
+                {
+                    
+                    if (string.IsNullOrEmpty(hashtag))
+                    {
+                        apiCallResponse.success = false;
+                        apiCallResponse.errorMessage = "Missing parameter hashtag";
+                        return new Tuple<List<Post>, ApiCallResponse>(emptyList, apiCallResponse);
+                    }
+                    if (hashtag.StartsWith("#"))
+                    {
+                        hashtag = hashtag.TrimStart('#');
+                    }
+                    string requestUrl = Common.baseUrl + "/stream/0/posts/tag/" + hashtag;
+                     if(parameter != null) {
+                        requestUrl = requestUrl + "?" + parameter.getQueryString();
+                    }
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    
+                    Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
+                    return Helper.getData<List<Post>>(response);
+                }
+                catch (Exception exp)
+                {
+                    apiCallResponse.success = false;
+                    apiCallResponse.errorMessage = exp.Message;
+                    apiCallResponse.errorDescription = exp.StackTrace;
+                }
+                return new Tuple<List<Post>, ApiCallResponse>(emptyList, apiCallResponse);
+            }
+
+        
         }
         #endregion
 
