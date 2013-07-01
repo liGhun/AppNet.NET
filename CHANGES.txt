@@ -1,3 +1,9 @@
+1.7
+User streaming added
+
+1.6.7
+Post and message creation: added parameter for link parsing
+
 1.6.3
 Added much better error response handling (will parse now returned JSON if availbale)
 Added blocking endpoints for users 

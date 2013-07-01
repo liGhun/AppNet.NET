@@ -23,6 +23,7 @@ namespace AppNetDotNet.Model
         public List<Mention> mentions { get; set; }
         public List<Hashtag> hashtags { get; set; }
         public List<Link> links { get; set; }
+        public bool? parse_links { get; set; }
         public List<IEntity> allEntities
         {
             get
@@ -142,6 +143,7 @@ namespace AppNetDotNet.Model
         public List<Entities.Mention> mentions { get; set; }
         public List<Entities.Hashtag> hashtags { get; set; }
         public List<Entities.Link> links { get; set; }
+        public bool? parse_links { get; set; }
 
         public EntitiesWithoutAllProperty(Entities entities)
         {

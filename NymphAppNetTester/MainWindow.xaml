@@ -54,6 +54,7 @@
         <Button x:Name="button_openPlacesWindow" Content="Open place window" HorizontalAlignment="Left" Margin="557,467,0,0" VerticalAlignment="Top" Width="117" Click="button_openPlacesWindow_Click" />
         <Button x:Name="buttonGetInteractions" Content="Get interactions of me" HorizontalAlignment="Left" Margin="557,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetInteractions_Click_1"/>
         <Button x:Name="buttonTextProcessor" Content="Process text ->" HorizontalAlignment="Left" Margin="557,223,0,0" VerticalAlignment="Top" Width="117" Click="buttonTextProcessor_Click_1" RenderTransformOrigin="0.497,1.732"/>
+        <Button x:Name="buttonUserStream" Content="User stream" Click="buttonUserStream_Click" HorizontalAlignment="Left" Margin="562,304,0,0" VerticalAlignment="Top" Width="112"/>
 
     </Grid>
 </Window>

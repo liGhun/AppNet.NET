@@ -271,5 +271,13 @@ namespace NymphAppNetTester
         {
             Tuple<Post, ApiCallResponse> response = TextProcessor.process(textboxAccessToken.Text, textboxMessageText.Text);
         }
+
+        private void buttonUserStream_Click(object sender, RoutedEventArgs e)
+        {
+            StreamingTest streamingWindow = new StreamingTest(this.textboxAccessToken.Text);
+            streamingWindow.Show();
+        }
+
+
     }
 }

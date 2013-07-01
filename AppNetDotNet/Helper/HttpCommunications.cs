@@ -386,7 +386,7 @@ namespace AppNetDotNet
             }
         }
 
-        public static Response SendGetRequest(string url, Dictionary<string, string> additionalHeaders)
+        public static Response SendGetRequest(string url, Dictionary<string, string> additionalHeaders, bool receiveOnlyFirstLine = false)
         {
             try
             {
@@ -400,7 +400,7 @@ namespace AppNetDotNet
                     request.Headers.Add(additonalHeader.Key, additonalHeader.Value);
                 }
 
-                Response returnValue = GetResponse(request);
+                Response returnValue = GetResponse(request, receiveOnlyFirstLine);
                 return returnValue;
             }
             catch (System.Exception e)
@@ -530,8 +530,8 @@ namespace AppNetDotNet
                 {
                     try
                     {
-                        parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
                         apiCallResponse.meta = JsonConvert.DeserializeObject<Model.Meta>(responseJson["meta"].ToString(), settings);
+                        parsedData = JsonConvert.DeserializeObject<T>(responseJson["data"].ToString(), settings);
                     }
                     catch (Exception exp) {
                         apiCallResponse.success = false;
@@ -558,7 +558,7 @@ namespace AppNetDotNet
             return url;
         }
 
-        public static Response GetResponse(HttpWebRequest request)
+        public static Response GetResponse(HttpWebRequest request, bool only_read_first_line = false)
         {
 
             HttpWebResponse response = null;
@@ -634,10 +634,19 @@ namespace AppNetDotNet
             returnValue = parseHeaders(returnValue);
             returnValue.StatusCode = response.StatusCode;
 
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            if (!only_read_first_line)
             {
-                returnValue.Content = reader.ReadToEnd();
-                
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    returnValue.Content = reader.ReadToEnd();
+                }
+            }
+            else
+            {
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    returnValue.Content = reader.ReadLine();
+                }
             }
             return returnValue;
         }

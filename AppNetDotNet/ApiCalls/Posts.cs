@@ -117,7 +117,7 @@ namespace AppNetDotNet.ApiCalls
         public static class Posts
         {
             
-            public static Tuple<Post,ApiCallResponse> create(string access_token, string text, string reply_to = null, List<File> toBeEmbeddedFiles = null, List<Annotation> annotations = null, Entities entities = null, int machine_only = 0)
+            public static Tuple<Post,ApiCallResponse> create(string access_token, string text, string reply_to = null, List<File> toBeEmbeddedFiles = null, List<Annotation> annotations = null, Entities entities = null, int machine_only = 0, bool? parse_links = null)
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
                 Post post = new Post();
@@ -145,6 +145,13 @@ namespace AppNetDotNet.ApiCalls
                     postCreateContent.machine_only = machine_only;
                     postCreateContent.entities = new EntitiesWithoutAllProperty(entities);
                     //postCreateContent.annotations = annotations;
+
+                    if (postCreateContent.entities != null)
+                    {
+                        postCreateContent.entities.parse_links = parse_links;
+                    }
+
+
                     if (toBeEmbeddedFiles != null)
                     {
                         if (postCreateContent.annotations == null)

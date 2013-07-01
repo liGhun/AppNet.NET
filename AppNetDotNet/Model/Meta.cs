@@ -12,5 +12,12 @@ namespace AppNetDotNet.Model
         public string max_id { get; set; }
         public string min_id { get; set; }
         public bool more { get; set; }
+
+        // Streaming parameters
+        public List<string> subscription_ids { get; set; }
+        public string subscription_id { get; set; }
+        public string connection_id { get; set; }
+        public bool is_deleted { get; set; }
+        public string deleted_id { get; set; }
     }
 }

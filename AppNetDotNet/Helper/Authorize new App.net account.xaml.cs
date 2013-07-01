@@ -187,7 +187,7 @@ namespace AppNetDotNet
                         AuthEventArgs eventArgs = new AuthEventArgs();
                         complete = true;
                         e.Cancel = true;
-                        string regexParams = "#access_token=([A-Za-z0-9]*)";
+                        string regexParams = "code=(.*)";
                         Regex regex = new Regex(regexParams);
                         Match match = regex.Match(e.Url.AbsoluteUri);
 

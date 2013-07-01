@@ -69,6 +69,7 @@
     <Compile Include="ApiCalls\Messages.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Places.cs" />
+    <Compile Include="ApiCalls\Streaming.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscriptions.cs" />
     <Compile Include="ApiCalls\TextProcessor.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Helper\Authorize new App.net account.xaml.cs">
       <DependentUpon>Authorize new App.net account.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\GetParameter.cs" />
     <Compile Include="Model\ACL.cs" />
     <Compile Include="Model\Annotations\AnnotationReplacement_File.cs" />
     <Compile Include="Model\Annotations\Annotations.cs" />

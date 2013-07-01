@@ -9,12 +9,12 @@ namespace AppNetDotNet.ApiCalls
 {
     public class Messages
     {
-        public static Tuple<Message, ApiCallResponse> createPrivateMessage(string access_token, string text, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0)
+        public static Tuple<Message, ApiCallResponse> createPrivateMessage(string access_token, string text, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0, bool? parse_links = null)
         {
-            return create(access_token, text, "pm", receipientUsersnameOrIds,  reply_to, annotations, entities, machineOnly);
+            return create(access_token, text, "pm", receipientUsersnameOrIds, reply_to:reply_to, annotations:annotations, entities:entities, machineOnly:machineOnly, parse_links:parse_links);
         }
 
-        public static Tuple<Message, ApiCallResponse> create(string access_token, string text, string channelId, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0)
+        public static Tuple<Message, ApiCallResponse> create(string access_token, string text, string channelId, List<string> receipientUsersnameOrIds, string reply_to = null, List<Annotation> annotations = null, Entities entities = null, int machineOnly = 0, bool? parse_links = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Message message = new Message();
@@ -48,6 +48,11 @@ namespace AppNetDotNet.ApiCalls
                     requestUrl += "/stream/0/channels/" + channelId + "/messages";
                 }
 
+                if (entities != null)
+                {
+                    entities.parse_links = parse_links;
+                }
+
                 messageCreateParameters messageContent = new messageCreateParameters();
                 messageContent.text = text;
                 messageContent.reply_to = reply_to;
@@ -55,6 +60,7 @@ namespace AppNetDotNet.ApiCalls
                 messageContent.entities = entities;
                 messageContent.machine_only = machineOnly;
                 messageContent.destinations = receipientUsersnameOrIds;
+                
 
                 JsonSerializerSettings settings = new JsonSerializerSettings();
                 settings.NullValueHandling = NullValueHandling.Ignore;
@@ -294,6 +300,7 @@ namespace AppNetDotNet.ApiCalls
             public List<Annotation> annotations { get; set; }
             // public List<AppNetDotNet.Model.Annotations.AnnotationReplacement_File> annotations { get; set; }
             public List<string> destinations { get; set; }
+         
         }
     }
 }
