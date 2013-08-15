@@ -44,10 +44,13 @@ namespace NymphAppNetTester
                 IAsyncResult asyncResult = userStream.StartUserStream(
                     followersCallback: followersCallback,
                     unifiedCallback: unifiedCallback,
-                    channelsCallback: channelsCallback);
-                userStream.subscribe_to_endpoint(userStream.available_endpoints["Unified"]);
-                userStream.subscribe_to_endpoint(userStream.available_endpoints["Channels"]);
-                userStream.subscribe_to_endpoint(userStream.available_endpoints["Followers"]);
+                    streamCallback: streamCallback,
+                    channelsCallback: channelsCallback,
+                    rawJsonCallback:rawJsonCallback);
+                userStream.subscribe_to_endpoint(userStream.available_endpoints["Stream"]);
+              //  userStream.subscribe_to_endpoint(userStream.available_endpoints["Unified"]);
+              //  userStream.subscribe_to_endpoint(userStream.available_endpoints["Channels"]);
+              //  userStream.subscribe_to_endpoint(userStream.available_endpoints["Followers"]);
                 buttonUserStream.Content = "Stop user stream";
             }
             else
@@ -89,6 +92,18 @@ namespace NymphAppNetTester
         }
 
         public void unifiedCallback(List<Post> posts, bool is_deleted = false)
+        {
+            if (posts != null)
+            {
+                foreach (Post post in posts)
+                {
+                    updates.Add(post.ToString());
+                    this.Dispatcher.Invoke(new Action(add_string));
+                }
+            }
+        }
+
+        public void streamCallback(List<Post> posts, bool is_deleted = false)
         {
             if (posts != null)
             {

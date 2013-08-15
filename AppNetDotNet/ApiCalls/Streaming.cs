@@ -21,6 +21,7 @@ namespace AppNetDotNet.ApiCalls
         {
             StoppedByRequest,
             WebConnectionFailed,
+            WebConnectionNotOk,
             Unknown,
             Unauthorised,
             Forbidden,
@@ -63,6 +64,7 @@ namespace AppNetDotNet.ApiCalls
 
             private StreamStoppedCallback streamStoppedCallback;
 
+            public string last_error { get; set; }
             
             public string connection_id  { get; set; }
             public bool stop_received {get;set;}
@@ -92,7 +94,8 @@ namespace AppNetDotNet.ApiCalls
                                  ChannelSubscribersCallback channelSubscribersCallback = null,
                                  ChannelMessagesCallback channelMessagesCallback = null,
                                  FilesCallback filesCallback = null,
-                                 RawJsonCallback rawJsonCallback = null)
+                                 RawJsonCallback rawJsonCallback = null,
+                                 StreamStoppedCallback streamStoppedCallback = null)
             {
                 if (this.request != null)
                 {
@@ -110,6 +113,7 @@ namespace AppNetDotNet.ApiCalls
                 this.channelMessagesCallback = channelMessagesCallback;
                 this.filesCallback = filesCallback;
                 this.rawJsonCallback = rawJsonCallback;
+                this.streamStoppedCallback = streamStoppedCallback;
 
                 subscribed_endpoints = new Dictionary<string, StreamingEndpoint>();
                 to_be_subscribed_endpoints = new List<StreamingEndpoint>();
@@ -158,10 +162,8 @@ namespace AppNetDotNet.ApiCalls
 
             public bool is_active
             {
-                get
-                {
-                    return request != null;
-                }
+                get;
+                set;
             }
 
             public void stopUserStream()
@@ -311,17 +313,20 @@ namespace AppNetDotNet.ApiCalls
 
                     connection_id = response.Headers["Connection-Id"];
 
-                    if (to_be_subscribed_endpoints != null)
-                    {
-                        foreach (StreamingEndpoint endpoint in to_be_subscribed_endpoints)
-                        {
-                            subscribe_to_endpoint(endpoint);
-                        }
-                        to_be_subscribed_endpoints.Clear();
-                    }
-
+                    
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+
+                        is_active = true;
+                        if (to_be_subscribed_endpoints != null)
+                        {
+                            foreach (StreamingEndpoint endpoint in to_be_subscribed_endpoints)
+                            {
+                                subscribe_to_endpoint(endpoint);
+                            }
+                            to_be_subscribed_endpoints.Clear();
+                        }
+
                         using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
                             try
@@ -354,6 +359,11 @@ namespace AppNetDotNet.ApiCalls
                                 OnStreamStopped(stop_received ? StopReasons.StoppedByRequest : StopReasons.WebConnectionFailed);
                             }
                         }
+                    }
+                    else
+                    {
+                        last_error = response.StatusDescription;
+                        OnStreamStopped(StopReasons.WebConnectionNotOk);
                     }
                 }
                 catch (WebException we)
@@ -407,6 +417,8 @@ namespace AppNetDotNet.ApiCalls
                         response.Close();
                     request = null;
                 }
+
+                is_active = false;
             }
 
             private void OnStreamStopped(StopReasons reason)
@@ -449,10 +461,21 @@ namespace AppNetDotNet.ApiCalls
                 {
                     if (apiCallResponse.meta.subscription_ids != null)
                     {
+                        string data = null;
+                        try
+                        {
+                            data = responseJson["data"].ToString();
+                        }
+                        catch { return; }
+                        if (string.IsNullOrEmpty(data))
+                        {
+                            return;
+                        }
                         foreach (string subscription_id in apiCallResponse.meta.subscription_ids)
                         {
                             if (subscribed_endpoints.ContainsKey(subscription_id))
                             {
+                               
                                 StreamingEndpoint endpoint = subscribed_endpoints[subscription_id];
                                 if (endpoint != null)
                                 {
@@ -460,7 +483,7 @@ namespace AppNetDotNet.ApiCalls
                                     {
 
                                         case "Following":
-                                            List<User> following = JsonConvert.DeserializeObject<List<User>>(responseJson["data"].ToString(), settings);
+                                            List<User> following = JsonConvert.DeserializeObject<List<User>>(data, settings);
                                             if (following != null && followingCallback != null)
                                             {
                                                 followingCallback(following, is_deleted: apiCallResponse.meta.is_deleted);
@@ -468,15 +491,39 @@ namespace AppNetDotNet.ApiCalls
                                             break;
 
                                         case "Followers":
-                                            List<User> followers = JsonConvert.DeserializeObject<List<User>>(responseJson["data"].ToString(), settings);
+                                            List<User> followers = JsonConvert.DeserializeObject<List<User>>(data, settings);
                                             if (followers != null && followersCallback != null)
                                             {
                                                 followersCallback(followers, is_deleted: apiCallResponse.meta.is_deleted);
                                             }
                                             break;
 
+                                        case "Posts":
+                                            List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(data, settings);
+                                            if (posts != null && postsCallback != null)
+                                            {
+                                                postsCallback(posts, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
+                                        case "Mentions":
+                                            List<Post> mentions = JsonConvert.DeserializeObject<List<Post>>(data, settings);
+                                            if (mentions != null && mentionsCallback != null)
+                                            {
+                                                mentionsCallback(mentions, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
+                                        case "Stream":
+                                            List<Post> stream = JsonConvert.DeserializeObject<List<Post>>(data, settings);
+                                            if (stream != null && streamCallback != null)
+                                            {
+                                                streamCallback(stream, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
                                         case "Unified":
-                                            List<Post> unified_posts = JsonConvert.DeserializeObject<List<Post>>(responseJson["data"].ToString(), settings);
+                                            List<Post> unified_posts = JsonConvert.DeserializeObject<List<Post>>(data, settings);
                                             if (unified_posts != null && unifiedCallback != null)
                                             {
                                                 unifiedCallback(unified_posts, is_deleted: apiCallResponse.meta.is_deleted);
@@ -484,10 +531,34 @@ namespace AppNetDotNet.ApiCalls
                                             break;
 
                                         case "Channels":
-                                            List<Message> channels = JsonConvert.DeserializeObject<List<Message>>(responseJson["data"].ToString(), settings);
+                                            List<Message> channels = JsonConvert.DeserializeObject<List<Message>>(data, settings);
                                             if (channels != null && channelsCallback != null)
                                             {
                                                 channelsCallback(channels, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
+                                        case "Channel subscribers":
+                                            List<User> subscribers = JsonConvert.DeserializeObject<List<User>>(data, settings);
+                                            if (subscribers != null && channelSubscribersCallback != null)
+                                            {
+                                                channelSubscribersCallback(subscribers, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
+                                        case "Channel messages":
+                                            List<Message> messages = JsonConvert.DeserializeObject<List<Message>>(data, settings);
+                                            if (messages != null && channelMessagesCallback != null)
+                                            {
+                                                channelMessagesCallback(messages, is_deleted: apiCallResponse.meta.is_deleted);
+                                            }
+                                            break;
+
+                                        case "Files":
+                                            List<AppNetDotNet.Model.File> files = JsonConvert.DeserializeObject<List<AppNetDotNet.Model.File>>(data, settings);
+                                            if (files != null && filesCallback != null)
+                                            {
+                                                filesCallback(files, is_deleted: apiCallResponse.meta.is_deleted);
                                             }
                                             break;
 

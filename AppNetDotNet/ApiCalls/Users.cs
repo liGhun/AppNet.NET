@@ -28,6 +28,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId);
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -64,6 +68,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId) + "/follow";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendPostRequest(requestUrl, new object(), headers);
@@ -98,6 +106,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId) + "/follow";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendDeleteRequest(requestUrl, headers);
@@ -131,6 +143,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId) + "/following";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -164,6 +180,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + Common.formatUserIdOrUsername(usernameOrId) + "/followers";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -351,7 +371,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<User, ApiCallResponse>(user, apiCallResponse);
         }
 
-        public static Tuple<List<User>, ApiCallResponse> getBlockedUsers(string access_token, string userIdOrName = "me")
+        public static Tuple<List<User>, ApiCallResponse> getBlockedUsers(string access_token, string userIdOrName = "me", Parameters parameter = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -364,6 +384,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/" + userIdOrName + "/blocked";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -417,7 +441,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Searches
 
-        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString)
+        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString, Parameters parameter)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -436,6 +460,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/users/search?q=" + System.Web.HttpUtility.HtmlEncode(searchString);
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -455,7 +483,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Reposters
 
-        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId)
+        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId, Parameters parameter)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -474,6 +502,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/posts/" + postId + "/reposters";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
@@ -493,7 +525,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Stars
 
-        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId)
+        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId, Parameters parameter)
         {
              ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -512,6 +544,10 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<User>, ApiCallResponse>(users, apiCallResponse);
                 }
                 string requestUrl = Common.baseUrl + "/stream/0/posts/" + postId + "/stars";
+                if (parameter != null)
+                {
+                    requestUrl += "?" + parameter.getQueryString();
+                }
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
                 Helper.Response response = Helper.SendGetRequest(requestUrl, headers);
