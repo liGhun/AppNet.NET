@@ -16,7 +16,7 @@ namespace AppNetDotNet.HelpMethods
             string parameter_string = "";
             foreach (KeyValuePair<string, object> parameter in parameters)
             {
-                if (parameter.Value != null)
+                if (parameter.Value != null && !string.IsNullOrEmpty(parameter.Key))
                 {
                     if (!string.IsNullOrWhiteSpace(parameter.Value.ToString()))
                     {
@@ -27,6 +27,18 @@ namespace AppNetDotNet.HelpMethods
             parameter_string = parameter_string.TrimEnd('&');
 
             return parameter_string;
+        }
+
+        public static void add_parameter_to_dictionary(ref Dictionary<string,object> current_dictionary, string key, object value)
+        {
+            if (current_dictionary == null)
+            {
+                current_dictionary = new Dictionary<string, object>();
+            }
+            if (!string.IsNullOrEmpty(key))
+            {
+                current_dictionary.Add(key, value);
+            }
         }
     }
 }

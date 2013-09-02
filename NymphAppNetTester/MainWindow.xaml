@@ -14,7 +14,7 @@
         <TextBox x:Name="textboxAccessToken" HorizontalAlignment="Left" Height="23" Margin="388,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="AQAAAAAAAUVxpoqhhhK-Z828bl3BlI3lYqOizU5GapaHi_3HT5zWfhAToT-Q9rwT7nFRQLuoavxTL533WnjVkmLG0kUE70s9Ww"/>
         <TextBlock HorizontalAlignment="Left" Margin="249,112,0,0" TextWrapping="Wrap" Text="Access token" VerticalAlignment="Top" RenderTransformOrigin="1.172,0.525" Height="19" Width="134" TextAlignment="Right"/>
         <Button Content="Get user stream" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="117" Name="buttonGetPersonalStream" Click="buttonGetPersonalStream_Click_1" />
-        <Button x:Name="buttonWritePost" Content="Write Post" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonWritePost_Click"/>
+        <Button x:Name="buttonWritePost" Content="Write Post" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="117" Click="buttonWritePost_Click"/>
         <TextBox x:Name="textboxMessageText" HorizontalAlignment="Left" Height="60" Margin="679,223,0,0" TextWrapping="Wrap" Text="Example PM for posting with Nymphicus" VerticalAlignment="Top" Width="226"/>
         <Button x:Name="buttonGetPostById" Content="Get post by id" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetPostById_Click_1" />
         <TextBox x:Name="textboxGetPostById" HorizontalAlignment="Left" Height="23" Margin="132,193,0,0" TextWrapping="Wrap" Text="795025" VerticalAlignment="Top" Width="112"/>
@@ -55,6 +55,10 @@
         <Button x:Name="buttonGetInteractions" Content="Get interactions of me" HorizontalAlignment="Left" Margin="557,115,0,0" VerticalAlignment="Top" Width="117" Click="buttonGetInteractions_Click_1"/>
         <Button x:Name="buttonTextProcessor" Content="Process text ->" HorizontalAlignment="Left" Margin="557,223,0,0" VerticalAlignment="Top" Width="117" Click="buttonTextProcessor_Click_1" RenderTransformOrigin="0.497,1.732"/>
         <Button x:Name="buttonUserStream" Content="User stream" Click="buttonUserStream_Click" HorizontalAlignment="Left" Margin="562,304,0,0" VerticalAlignment="Top" Width="112"/>
+        <TextBox x:Name="textboxSearchQuery" HorizontalAlignment="Left" Height="23" Margin="388,460,0,0" TextWrapping="Wrap" Text="my search text" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="buttonStartSearch" Content="Search --->" HorizontalAlignment="Left" Margin="266,464,0,0" VerticalAlignment="Top" Width="117" Click="buttonStartSearch_Click"/>
+        <Button Content="Get since ID" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="117" x:Name="buttonGetPersonalStreamSinceId" Click="buttonGetPersonalStreamSinceId_Click" />
+        <Button Content="Get Configuration" Name="buttonGetConfig" Click="buttonGetConfig_Click" HorizontalAlignment="Left" Margin="266,488,0,0" VerticalAlignment="Top" Width="117"/>
 
     </Grid>
 </Window>

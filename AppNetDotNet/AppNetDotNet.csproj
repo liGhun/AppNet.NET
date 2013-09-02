@@ -39,9 +39,8 @@
     <AssemblyOriginatorKeyFile>CertForTests.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -60,8 +59,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiCalls\bool_parameter.cs" />
     <Compile Include="ApiCalls\Channels.cs" />
     <Compile Include="ApiCalls\Common.cs" />
+    <Compile Include="ApiCalls\Configurations.cs" />
     <Compile Include="ApiCalls\Files.cs" />
     <Compile Include="ApiCalls\Filters.cs" />
     <Compile Include="ApiCalls\ApiCallResponse.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="ApiCalls\Messages.cs" />
     <Compile Include="ApiCalls\Parameters.cs" />
     <Compile Include="ApiCalls\Places.cs" />
+    <Compile Include="ApiCalls\Searches.cs" />
     <Compile Include="ApiCalls\Streaming.cs" />
     <Compile Include="ApiCalls\Streams.cs" />
     <Compile Include="ApiCalls\Subscriptions.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Model\Meta.cs" />
     <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\ResourceConfiguration.cs" />
     <Compile Include="Model\Stream.cs" />
     <Compile Include="Model\StreamMarker.cs" />
     <Compile Include="Model\Token.cs" />
@@ -131,13 +134,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="alpha.png" />
-    <Content Include="Newtonsoft.Json.dll" />
-    <Content Include="Newtonsoft.Json.pdb" />
-    <Resource Include="Newtonsoft.Json.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="CertForTests.snk" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

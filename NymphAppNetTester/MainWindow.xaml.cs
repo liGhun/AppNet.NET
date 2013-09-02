@@ -73,6 +73,16 @@ namespace NymphAppNetTester
             parameters.include_annotations = true;
 
             streamItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text,parameters);
+            if (streamItems.Item2.success)
+            {
+                ListEntries list_window = new ListEntries();
+                list_window.listbox_entries.ItemsSource = streamItems.Item1;
+                list_window.Show();
+            }
+            else
+            {
+                MessageBox.Show(streamItems.Item2.errorDescription, streamItems.Item2.errorMessage);
+            }
             Console.WriteLine(streamItems.ToString());
         }
 
@@ -276,6 +286,49 @@ namespace NymphAppNetTester
         {
             StreamingTest streamingWindow = new StreamingTest(this.textboxAccessToken.Text);
             streamingWindow.Show();
+        }
+
+        private void buttonStartSearch_Click(object sender, RoutedEventArgs e)
+        {
+            Tuple<List<Post>, ApiCallResponse> response = Searches.search_string(textboxAccessToken.Text, textboxSearchQuery.Text);
+            if (response.Item2.success)
+            {
+                ListEntries list_window = new ListEntries();
+                list_window.listbox_entries.ItemsSource = response.Item1;
+                list_window.Show();
+            }
+            else
+            {
+                MessageBox.Show(response.Item2.errorDescription, response.Item2.errorMessage);
+            }
+        }
+
+        private void buttonGetPersonalStreamSinceId_Click(object sender, RoutedEventArgs e)
+        {
+            Tuple<List<Post>, ApiCallResponse> streamItems;
+            ParametersMyStream parameters = new ParametersMyStream();
+            parameters.count = 100;
+            parameters.include_annotations = true;
+            parameters.since_id = textboxGetPostById.Text;
+
+            streamItems = AppNetDotNet.ApiCalls.SimpleStreams.getUserStream(textboxAccessToken.Text, parameters);
+            if (streamItems.Item2.success)
+            {
+                ListEntries list_window = new ListEntries();
+                list_window.listbox_entries.ItemsSource = streamItems.Item1;
+                list_window.Show();
+            }
+            else
+            {
+                MessageBox.Show(streamItems.Item2.errorDescription, streamItems.Item2.errorMessage);
+            }
+            Console.WriteLine(streamItems.ToString());
+        }
+
+        private void buttonGetConfig_Click(object sender, RoutedEventArgs e)
+        {
+            Tuple<Configuration, ApiCallResponse> config = Configurations.get();
+            Console.WriteLine();
         }
 
 

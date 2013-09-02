@@ -441,7 +441,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Searches
 
-        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString, Parameters parameter)
+        public static Tuple<List<User>,ApiCallResponse> searchUsers(string access_token, string searchString, Parameters parameter = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -483,7 +483,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Reposters
 
-        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId, Parameters parameter)
+        public static Tuple<List<User>, ApiCallResponse> getRepostersOfPost(string access_token, string postId, Parameters parameter = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();
@@ -525,7 +525,7 @@ namespace AppNetDotNet.ApiCalls
 
         #region Stars
 
-        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId, Parameters parameter)
+        public static Tuple<List<User>,ApiCallResponse> getUserWhoStarredAPost(string access_token, string postId, Parameters parameter = null)
         {
              ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<User> users = new List<User>();

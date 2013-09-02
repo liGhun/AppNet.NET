@@ -51,17 +51,15 @@ namespace AppNetDotNet.ApiCalls
             }
         }
 
-        public static Tuple<List<Place>, ApiCallResponse> search(string access_token, 
-            decimal latitude, 
+        public static Tuple<List<Place>, ApiCallResponse> search(string access_token,
+            decimal latitude,
             decimal longitude,
             string query = null,
             decimal radius = -1,
             int count = -1,
             decimal altitude = -100000,
             decimal horizontal_accuracy = -100000,
-            decimal vertical_accuracy = -100000
-
-            )
+            decimal vertical_accuracy = -100000)
         {
             {
                 ApiCallResponse apiCallResponse = new ApiCallResponse();
@@ -74,34 +72,35 @@ namespace AppNetDotNet.ApiCalls
                         apiCallResponse.errorMessage = "Missing parameter access_token";
                         return new Tuple<List<Place>, ApiCallResponse>(places, apiCallResponse);
                     }
-                
+
                     string searchParameters = "?latitude=" + latitude + "&longitude=" + longitude;
                     searchParameters = searchParameters.Replace(",", ".");
-                        if(!string.IsNullOrEmpty(query)) {
-                            searchParameters += "&q=" + query;
-                        }
-                        if (radius >= 0)
-                        {
-                            searchParameters += "&radius=" + radius;
-                        }
-                        if (count > 0)
-                        {
-                            searchParameters += "&count=" + count;
-                        }
-                        if (altitude != -100000)
-                        {
-                            searchParameters += "&altitude=" + altitude;
-                        }
-                        if (horizontal_accuracy != -100000)
-                        {
-                            searchParameters += "&horizontal_accuracy=" + horizontal_accuracy;
-                        }
-                        if (vertical_accuracy != -100000)
-                        {
-                            searchParameters += "&vertical_accuracy=" + vertical_accuracy;
-                        }
+                    if (!string.IsNullOrEmpty(query))
+                    {
+                        searchParameters += "&q=" + query;
+                    }
+                    if (radius >= 0)
+                    {
+                        searchParameters += "&radius=" + radius;
+                    }
+                    if (count > 0)
+                    {
+                        searchParameters += "&count=" + count;
+                    }
+                    if (altitude != -100000)
+                    {
+                        searchParameters += "&altitude=" + altitude;
+                    }
+                    if (horizontal_accuracy != -100000)
+                    {
+                        searchParameters += "&horizontal_accuracy=" + horizontal_accuracy;
+                    }
+                    if (vertical_accuracy != -100000)
+                    {
+                        searchParameters += "&vertical_accuracy=" + vertical_accuracy;
+                    }
 
-                        string requestUrl = Common.baseUrl + "/stream/0/places/search" + searchParameters;
+                    string requestUrl = Common.baseUrl + "/stream/0/places/search" + searchParameters;
 
                     Dictionary<string, string> headers = new Dictionary<string, string>();
                     headers.Add("Authorization", "Bearer " + access_token);
@@ -121,8 +120,5 @@ namespace AppNetDotNet.ApiCalls
                 return new Tuple<List<Place>, ApiCallResponse>(places, apiCallResponse);
             }
         }
-
-
-
     }
 }
