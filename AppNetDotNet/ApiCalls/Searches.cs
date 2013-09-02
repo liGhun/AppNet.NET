@@ -14,10 +14,11 @@ namespace AppNetDotNet.ApiCalls
         /// </summary>
         /// <param name="access_token">the access token</param>
         /// <param name="search_string">the query string</param>
+        /// <param name="general_parameters">general posts paramerters</param>
         /// <returns></returns>
-        public static Tuple<List<Post>, ApiCallResponse> search_string(string access_token, string search_string)
+        public static Tuple<List<Post>, ApiCallResponse> search_string(string access_token, string search_string, Parameters general_parameters = null)
         {
-            return search_extended(access_token, query: search_string);
+            return search_extended(access_token, query: search_string, general_parameters: general_parameters);
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace AppNetDotNet.ApiCalls
         /// <param name="creator_id">Only include posts created by a specific user. Use the user ID, not the username</param>
         /// <param name="reply_to">Only include immediate replies to a given post ID</param>
         /// <param name="thread_id">Only include posts on a specific thread</param>
+        /// <param name="general_parameters">general post paramerts</param>
         /// <returns></returns>
         public static Tuple<List<Post>, ApiCallResponse> search_extended(
             string access_token,
@@ -84,7 +86,8 @@ namespace AppNetDotNet.ApiCalls
             string client_id = null,
             string creator_id = null,
             string reply_to = null,
-            string thread_id = null) 
+            string thread_id = null,
+            Parameters general_parameters = null) 
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             List<Post> posts = new List<Post>();
@@ -97,37 +100,37 @@ namespace AppNetDotNet.ApiCalls
                     return new Tuple<List<Post>, ApiCallResponse>(posts, apiCallResponse);
                 }
 
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "index", index);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "order", order);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "query", query);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "text", text);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "hashtags", hashtags);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "links", links);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "link_domains", link_domains);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "leading_mentions", leading_mentions);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "annotation_types", annotation_types);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "attachment_types", attachment_types);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "crosspost_url", crosspost_url);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "crosspost_domain", crosspost_domain);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "place_id",place_id);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "is_reply", is_reply);
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "is_directed", is_directed); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_location", has_location); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_checkin",has_checkin); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "is_crosspost", is_crosspost); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_attachment", has_attachment); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_oembed_photo", has_oembed_photo); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_oembed_video", has_oembed_video); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_oembed_html5video", has_oembed_html5video); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "has_oembed_rich", has_oembed_rich); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "language", language); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "client_id", client_id); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "creator_id", creator_id); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "reply_to", reply_to); 
-                HelpMethods.GetParameter.add_parameter_to_dictionary(ref parameters, "thread_id", thread_id);
+                Dictionary<string, object> search_parameters = new Dictionary<string, object>();
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "index", index);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "order", order);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "query", query);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "text", text);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "hashtags", hashtags);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "links", links);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "link_domains", link_domains);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "leading_mentions", leading_mentions);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "annotation_types", annotation_types);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "attachment_types", attachment_types);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "crosspost_url", crosspost_url);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "crosspost_domain", crosspost_domain);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "place_id",place_id);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "is_reply", is_reply);
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "is_directed", is_directed); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_location", has_location); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_checkin",has_checkin); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "is_crosspost", is_crosspost); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_attachment", has_attachment); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_oembed_photo", has_oembed_photo); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_oembed_video", has_oembed_video); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_oembed_html5video", has_oembed_html5video); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "has_oembed_rich", has_oembed_rich); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "language", language); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "client_id", client_id); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "creator_id", creator_id); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "reply_to", reply_to); 
+                HelpMethods.GetParameter.add_parameter_to_dictionary(ref search_parameters, "thread_id", thread_id);
 
-                string query_string = HelpMethods.GetParameter.get(parameters);
+                string query_string = HelpMethods.GetParameter.get(search_parameters);
 
                 if(string.IsNullOrWhiteSpace(query_string)) {
                     apiCallResponse.success = false;
@@ -136,6 +139,10 @@ namespace AppNetDotNet.ApiCalls
                 }
 
                 string requestUrl = Common.baseUrl + "/stream/0/posts/search?" + query_string;
+                if (general_parameters != null)
+                {
+                    requestUrl += "&" + general_parameters.getQueryString();
+                }
 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
