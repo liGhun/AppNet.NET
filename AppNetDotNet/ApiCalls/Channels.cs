@@ -61,7 +61,7 @@ namespace AppNetDotNet.ApiCalls
             return new Tuple<Channel, ApiCallResponse>(channel, apiCallResponse);
         }
 
-        public static Tuple<Channel, ApiCallResponse> get(string access_token, string id)
+        public static Tuple<Channel, ApiCallResponse> get(string access_token, string id, channelParameters parameters = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             Channel channel = new Channel();
@@ -81,6 +81,10 @@ namespace AppNetDotNet.ApiCalls
                 }
 
                 string requestUrl = Common.baseUrl + "/stream/0/channels/" + id;
+                if (parameters != null)
+                {
+                    requestUrl += "?" + parameters.getQueryString();
+                }
 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Bearer " + access_token);
