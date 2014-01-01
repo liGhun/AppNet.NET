@@ -14,6 +14,50 @@ namespace AppNetDotNet.Model
 
     public class Annotation : IAnnotation
     {
+        public Annotation()
+        {
+            parse_content = true;
+        }
+
+        public Annotation(bool auto_parse_content = true)
+        {
+            parse_content = auto_parse_content;
+        }
+
+        public Annotation(string annotation_type, object annotation_value_object, bool auto_parse_content = false)
+        {
+            parse_content = auto_parse_content;
+            type = annotation_type;
+            value = annotation_value_object;
+        }
+
+        public string json_body_string
+        {
+            get
+            {         
+                return JsonConvert.SerializeObject(json_body);
+            }
+        }
+
+        public JSON_body json_body
+        {
+            get
+            {
+                JSON_body body = new JSON_body();
+                body.type = type;
+                body.value = value;
+                return body;
+            }
+        }
+
+        public class JSON_body
+        {
+            public string type { get; set; }
+            public object value { get; set; }
+        }
+
+        private bool parse_content { get; set; }
+
         public object parsedObject { get; set; }
 
         public string type { 
@@ -24,7 +68,7 @@ namespace AppNetDotNet.Model
             set
             {
                 _type = value;
-                if(_type != null && this.value != null) {
+                if(_type != null && this.value != null && parse_content) {
                     parsedObject = getParsedObject();
                 }
             }
@@ -40,7 +84,7 @@ namespace AppNetDotNet.Model
             set
             {
                 _value = value;
-                if (_value != null && type != null)
+                if (_value != null && type != null && parse_content)
                 {
                     parsedObject = getParsedObject();
                 }
@@ -117,6 +161,14 @@ namespace AppNetDotNet.Model
                     case "de.li-ghun.issue":
                         {
                             return JsonConvert.DeserializeObject<Annotations.Issue>(value.ToString());
+                        }
+                    case "net.app.core.broadcast.message.metadata":
+                        {
+                            return JsonConvert.DeserializeObject<Annotations.Broadcast_Message_Metadata>(value.ToString());
+                        }
+                    case "net.app.core.broadcast.metadata":
+                        {
+                            return JsonConvert.DeserializeObject<Annotations.Broadcast_Channel_Metadata>(value.ToString());
                         }
                 }
             }

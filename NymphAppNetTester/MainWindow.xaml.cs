@@ -331,6 +331,12 @@ namespace NymphAppNetTester
             Console.WriteLine();
         }
 
+        private void button_broadcasts_Click(object sender, RoutedEventArgs e)
+        {
+            Broadcasts broadcasts = new Broadcasts(textboxAccessToken.Text);
+            broadcasts.Show();
+        }
+
 
     }
 }

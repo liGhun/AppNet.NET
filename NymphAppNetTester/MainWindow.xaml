@@ -59,6 +59,7 @@
         <Button x:Name="buttonStartSearch" Content="Search --->" HorizontalAlignment="Left" Margin="266,464,0,0" VerticalAlignment="Top" Width="117" Click="buttonStartSearch_Click"/>
         <Button Content="Get since ID" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="117" x:Name="buttonGetPersonalStreamSinceId" Click="buttonGetPersonalStreamSinceId_Click" />
         <Button Content="Get Configuration" Name="buttonGetConfig" Click="buttonGetConfig_Click" HorizontalAlignment="Left" Margin="266,488,0,0" VerticalAlignment="Top" Width="117"/>
+        <Button Name="button_broadcasts" Content="Broadcasts" HorizontalAlignment="Left" Margin="562,491,0,0" VerticalAlignment="Top" Width="112" Click="button_broadcasts_Click"/>
 
     </Grid>
 </Window>

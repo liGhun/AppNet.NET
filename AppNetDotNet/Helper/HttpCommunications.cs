@@ -799,24 +799,31 @@ namespace AppNetDotNet
                 System.UInt32 mimetype;
                 FindMimeFromData(0, null, buffer, 256, null, 0, out mimetype, 0);
                 System.IntPtr mimeTypePtr = new IntPtr(mimetype);
-                string mime = Marshal.PtrToStringUni(mimeTypePtr);
-                Marshal.FreeCoTaskMem(mimeTypePtr);
-                switch (mime)
+                try
                 {
-                    case "image/x-png":
-                        mime = "image/png";
-                        break;
-                    case "image/x-jpg":
-                        mime = "image/jpg";
-                        break;
-                    case "image/x-jpeg":
-                        mime = "image/jpeg";
-                        break;
-                    case "image/x-gif":
-                        mime = "image/gif";
-                        break;
+                    string mime = Marshal.PtrToStringUni(mimeTypePtr);
+                    Marshal.FreeCoTaskMem(mimeTypePtr);
+                    switch (mime)
+                    {
+                        case "image/x-png":
+                            mime = "image/png";
+                            break;
+                        case "image/x-jpg":
+                            mime = "image/jpg";
+                            break;
+                        case "image/x-jpeg":
+                            mime = "image/jpeg";
+                            break;
+                        case "image/x-gif":
+                            mime = "image/gif";
+                            break;
+                    }
+                    return mime;
                 }
-                return mime;
+                catch
+                {
+                    return "image/x-png";
+                }
             }
             catch (Exception e)
             {

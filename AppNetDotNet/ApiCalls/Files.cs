@@ -194,7 +194,7 @@ namespace AppNetDotNet.ApiCalls
             return apiCallResponse;
         }
 
-        public static Tuple<File, ApiCallResponse> create(string access_token, string local_file_path = null, string name = null, string type = null, List<Annotation> annotations = null, string kind = null, FileQueryParameters parameter = null)
+        public static Tuple<File, ApiCallResponse> create(string access_token, string local_file_path = null, string name = null, string type = null, List<Annotation> annotations = null, string kind = null, FileQueryParameters parameter = null, string mimetype = null)
         {
             ApiCallResponse apiCallResponse = new ApiCallResponse();
             File file = new File();
@@ -252,7 +252,7 @@ namespace AppNetDotNet.ApiCalls
                 {
                     if (!string.IsNullOrEmpty(local_file_path))
                     {
-                        setContent(access_token, returnValue.Item1.id, local_file_path);
+                        setContent(access_token, returnValue.Item1.id, local_file_path,mimeType:mimetype);
                         return returnValue;
                     }
                 }

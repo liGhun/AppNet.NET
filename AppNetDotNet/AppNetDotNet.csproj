@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiCalls\bool_parameter.cs" />
+    <Compile Include="ApiCalls\Broadcasts.cs" />
     <Compile Include="ApiCalls\Channels.cs" />
     <Compile Include="ApiCalls\Common.cs" />
     <Compile Include="ApiCalls\Configurations.cs" />
@@ -85,6 +86,8 @@
     <Compile Include="Model\Annotations\AnnotationReplacement_File.cs" />
     <Compile Include="Model\Annotations\Annotations.cs" />
     <Compile Include="Model\Annotations\Blog.cs" />
+    <Compile Include="Model\Annotations\Broadcast_Channel_Metadata.cs" />
+    <Compile Include="Model\Annotations\Broadcast_Message_Metadata.cs" />
     <Compile Include="Model\Annotations\Issue.cs" />
     <Compile Include="Model\Annotations\ChannelInvite.cs" />
     <Compile Include="Model\Annotations\Crosspost.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Model\Annotations\YawpTopic.cs" />
     <Compile Include="Model\Application.cs" />
     <Compile Include="Model\Authorization.cs" />
+    <Compile Include="Model\Broadcast.cs" />
     <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\File.cs" />
     <Compile Include="Model\Filter.cs" />

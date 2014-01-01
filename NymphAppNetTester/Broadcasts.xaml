@@ -1,0 +1,28 @@
+﻿<Window x:Class="NymphAppNetTester.Broadcasts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Broadcasts" Height="439.695" Width="679.008">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Channel ID" VerticalAlignment="Top" Height="23" Width="135" TextAlignment="Right"/>
+        <TextBox Name="textbox_channel" HorizontalAlignment="Left" Height="23" Margin="150,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.238,0.595"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,38,0,0" TextWrapping="Wrap" Text="Broadcast subject" VerticalAlignment="Top" Height="21" Width="134" TextAlignment="Right"/>
+        <TextBox Name="textbox_subject" Height="23" Margin="150,38,9.8,0" TextWrapping="Wrap" Text="This is the title" VerticalAlignment="Top"/>
+        <TextBox Name="textbox_broadcast_body" Height="23" Margin="150,66,9.8,0" TextWrapping="Wrap" Text="This is the text with a [linked text](http://www.google.de/) included" VerticalAlignment="Top"/>
+        <TextBox Name="textbox_read_more_link" Height="23" Margin="150,94,9.8,0" TextWrapping="Wrap" Text="http://www.li-ghun.de/" VerticalAlignment="Top"/>
+        <Button Content="Send broadcast" Name="button_send_broadcast" HorizontalAlignment="Left" Margin="150,122,0,0" VerticalAlignment="Top" Width="108" Click="button_send_broadcast_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" Text="Broadcast body" VerticalAlignment="Top" Height="21" Width="134" TextAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,95,0,0" TextWrapping="Wrap" Text="Broadcast read more link" VerticalAlignment="Top" Height="21" Width="134" TextAlignment="Right"/>
+        <Button Name="button_send_with_image" Content="Send with image" HorizontalAlignment="Left" Margin="263,122,0,0" VerticalAlignment="Top" Width="126" Click="button_send_with_image_Click"/>
+        <Separator HorizontalAlignment="Left" Height="18" Margin="10,146,0,0" VerticalAlignment="Top" Width="653" RenderTransformOrigin="0.496,-5.588"/>
+        <Button Name="button_get_entries" Content="Get broadcasts in channel" HorizontalAlignment="Left" Margin="150,169,0,0" VerticalAlignment="Top" Width="239" Click="button_get_entries_Click" />
+        <ListView Margin="10,201,9.8,10.4" Name="listview_broadcast_entries">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="button_get_channels" Content="Get channels of user" HorizontalAlignment="Right" Margin="0,14,9.8,0" VerticalAlignment="Top" Width="128" Click="button_get_channels_Click"/>
+
+    </Grid>
+</Window>

@@ -93,12 +93,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Broadcasts.xaml.cs">
+      <DependentUpon>Broadcasts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListEntries.xaml.cs">
       <DependentUpon>ListEntries.xaml</DependentUpon>
     </Compile>
     <Compile Include="Streaming.xaml.cs">
       <DependentUpon>Streaming.xaml</DependentUpon>
     </Compile>
+    <Page Include="Broadcasts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BrowserTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

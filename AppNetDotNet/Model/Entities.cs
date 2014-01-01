@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace AppNetDotNet.Model
 {
@@ -24,6 +25,9 @@ namespace AppNetDotNet.Model
         public List<Hashtag> hashtags { get; set; }
         public List<Link> links { get; set; }
         public bool? parse_links { get; set; }
+        public bool? parse_markdown_links { get; set; }
+
+        [JsonIgnore]
         public List<IEntity> allEntities
         {
             get
@@ -54,8 +58,8 @@ namespace AppNetDotNet.Model
                             _allEntities.Add(link);
                         }
                     }
-                    _allEntities.Sort();        
-                
+                    _allEntities.Sort();
+                    
                     return _allEntities;
                 }
             }

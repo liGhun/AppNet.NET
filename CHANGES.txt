@@ -1,3 +1,9 @@
+1.9
+Broadcasts added
+Messages images upload added
+Image upload now more general
+Annotations rewritten in quite some places
+
 1.8
 Search API added
 Configuration API added
